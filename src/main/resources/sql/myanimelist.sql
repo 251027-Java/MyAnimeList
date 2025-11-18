@@ -21,4 +21,3 @@ create table media.anime (
     status VARCHAR(10)
 )
 
-create table media.manga ()

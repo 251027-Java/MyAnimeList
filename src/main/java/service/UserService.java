@@ -18,7 +18,7 @@ public class UserService {
         return savedUser;
     }
 
-    public boolean doesUSernameExist(String username){
+    public boolean doesUsernameExist(String username){
         return userRepository.existsUserByUsername(username);
     }
 
