@@ -13,11 +13,16 @@ drop schema public;
 create schema media;
 
 create table media.anime (
-    id INT PRIMARY KEY,
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR(30),
     genre VARCHAR(10),
-    releaseDate DATE,
-    totalEpisodes int,
+    release_date DATE,
+    total_episodes int,
     status VARCHAR(10)
 )
 
+create table media.user (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    username VARCHAR(50),
+    password VARCHAR(50)
+)
