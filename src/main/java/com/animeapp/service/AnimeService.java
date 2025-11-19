@@ -1,9 +1,10 @@
-package service;
+package com.animeapp.service;
 
-import model.Anime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.AnimeRepository;
+
+import com.animeapp.model.Anime;
+import com.animeapp.repository.AnimeRepository;
 
 import java.util.List;
 import java.util.Optional;
