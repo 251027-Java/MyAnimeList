@@ -11,7 +11,6 @@ public class Anime {
     private Integer totalEpisodes;
     @Enumerated(EnumType.STRING)
     private Status status;
-    private Integer avgRating;
 
     public Integer getId() {
         return animeId;
@@ -44,13 +43,5 @@ public class Anime {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public Integer getAvgRatings() {
-        return avgRating;
-    }
-
-    public void setAvgRatings(Integer avgRating) {
-        this.avgRating = avgRating;
     }
 }
