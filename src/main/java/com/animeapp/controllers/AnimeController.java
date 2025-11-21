@@ -1,51 +1,34 @@
 package com.animeapp.controllers;
 
+import com.animeapp.model.Anime;
+import com.animeapp.service.AnimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.animeapp.model.User;
-import com.animeapp.service.AnimeService;
-import com.animeapp.service.UserService;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
 @RestController
+@RequestMapping("/anime")
 public class AnimeController {
-    private UserService userService;
-    private AnimeService animeService;
+
+    private final AnimeService animeService;
 
     @Autowired
-    public AnimeController(AnimeService animeService, UserService userService) {
+    public AnimeController(AnimeService animeService) {
         this.animeService = animeService;
-        this.userService = userService;
-
     }
 
-    @PostMapping("/register")
-    ResponseEntity<User> registerUser(@RequestBody User request) {
-        if (userService.doesUsernameExist(request.getUsername())) {
-            return ResponseEntity.status(409).body(request);
+    @GetMapping("/getAnime")
+    public ResponseEntity<?> getAnimeByName(@RequestParam("title") String title){
+        Anime anime = animeService.getAnimeByTitle(title);
+
+        if(Objects.isNull(anime)){
+            return ResponseEntity.notFound().build();
         }
-        User registeredUser = userService.registerUser(request.getUsername(), request.getPassword());
-        if (Objects.isNull(registeredUser)) {
-            return ResponseEntity.status(400).body(request);
-        }
-        return ResponseEntity.ok(registeredUser);
+        return ResponseEntity.ok(anime);
     }
 
-    @PostMapping("/login")
-    ResponseEntity<User> login(@RequestBody User request) {
-
-        User loggedInAccount = userService.loginUser(request);
-
-        if (Objects.isNull(loggedInAccount)) {
-            return ResponseEntity.status(401).body(null);
-        }
-
-        return ResponseEntity.ok(loggedInAccount);
-    }
 
 }
