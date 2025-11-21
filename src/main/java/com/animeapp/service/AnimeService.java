@@ -22,23 +22,12 @@ public class AnimeService {
         return animeRepository.findAll();
     }
 
-    public Optional<Anime> getAnimeById(int id) {
-        return animeRepository.findById(id);
-    }
-
-    public List<Anime> getAnimeByTitle(String title) {
+    public Anime getAnimeByTitle(String title) {
         return animeRepository.findByTitle(title);
     }
 
-    public Anime saveAnime(Anime anime) {
-        return animeRepository.save(anime);
-    }
-
-    public void deleteAnime(int id) {
-        animeRepository.deleteById(id);
-    }
-
-    public boolean existsById(int id) {
-        return animeRepository.existsById(id);
-    }
+//    public Anime updateRatings(String title, Integer rating){
+//
+//        return new Anime();
+//    }
 }
