@@ -8,11 +8,9 @@
 
 create database myanimelist;
 
-drop schema public;
+create schema myanimelist;
 
-create schema media;
-
-create table media.anime (
+create table myanimelist.anime (
     anime_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR(100),
     total_episodes int,
@@ -20,15 +18,15 @@ create table media.anime (
     avg_rating DOUBLE PRECISION
 )
 
-create table media.user (
+create table myanimelist.user (
     user_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username VARCHAR(50),
     password VARCHAR(50)
 )
 
-create table ratings (
+create table myanimelist.user_anime_watched (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id INTEGER NOT NULL,
     anime_id INTEGER NOT NULL,
-    score DOUBLE PRECISION NOT NULL
+    watched BOOLEAN
 );
