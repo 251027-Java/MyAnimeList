@@ -13,11 +13,11 @@ import java.util.Arrays;
 public class PopulateAnimeTable {
 
     public static void main(String[] args) {
-        String csvFile = "/Users/fahadnawaz/Documents/Revature/P0/loadDbScript/src/main/java/AnimeList.csv"; // path to your CSV file
+        String csvFile = "src/main/java/AnimeList.csv"; // path to your CSV file
 
         String url = "jdbc:postgresql://localhost:5432/myanimelist";
         String user = "postgres";
-        String password = "postgres";
+        String password = "mysecretpassword";
 
         String insertSQL = "INSERT INTO myanimelist.anime (title, total_episodes, status) VALUES (?, ?, ?)";
 
