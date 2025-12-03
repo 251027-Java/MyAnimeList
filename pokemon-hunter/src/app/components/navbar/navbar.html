@@ -8,7 +8,7 @@
             <a class="nav-link custom-nav-link" aria-current="page" routerLink="catch">Catch</a>
           </li>
         </ul>
-        <h1 class="navbar-title pokemon-font">Pokemon Hunter</h1>
+        <h1 class="navbar-title pokemon-font">MyAnimeList</h1>
         <form class="d-flex" role="search" (ngSubmit)="$event.preventDefault()">
           <input class="form-control me-2" type="search" placeholder="Search by Name or ID" 
           aria-label="Search" [ngModel]="pokemonService.searchTerm()" (ngModelChange)="onSearch($event)" name="search"/>

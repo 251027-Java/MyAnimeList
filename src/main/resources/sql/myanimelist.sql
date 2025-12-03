@@ -30,3 +30,12 @@ create table myanimelist.user_anime_watched (
     anime_id INTEGER NOT NULL,
     watched BOOLEAN
 );
+
+create table myanimelist.watchlist(
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES myanimelist.user(user_id),
+    anime_id INTEGER NOT NULL REFERENCES myanimelist.anime(anime_id),
+    added_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, anime_id)
+);
+
