@@ -1,0 +1,35 @@
+<div class="container-fluid">
+
+    <h1>Welcome, Walker!</h1>
+
+    <h3 class="mt-3 border-bottom">You have caught {{this.pokemonService.caughtPokemon().length}} <span class="pokemon-font">Pokemon</span></h3>
+
+    <table class="table table-striped align-middle mt-3">
+      <thead>
+        <tr>
+          <th scope="col">Pokemon</th>
+          <th scope="col">Name</th>
+          <th scope="col">ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pokemon of filteredPokemon()">
+          <td>
+            <img
+              [src]="pokemon.sprite"
+              [alt]="pokemon.name"
+              width="120"
+              height="120"
+            >
+          </td>
+          <td class="pokemon-font">
+            {{ pokemon.name | titlecase }}
+          </td>
+          <td>
+            #{{ pokemon.id }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+</div>

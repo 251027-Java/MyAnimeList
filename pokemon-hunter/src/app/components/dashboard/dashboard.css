@@ -1,0 +1,15 @@
+ .pokemon-font {
+  font-family: "Luckiest Guy", "Comic Sans MS", system-ui, sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffcb05; /* Pokémon yellow */
+  text-shadow:
+    -2px -2px 0 #2a75bb,
+     2px -2px 0 #2a75bb,
+    -2px  2px 0 #2a75bb,
+     2px  2px 0 #2a75bb,
+     0px  0px 6px #000;
+}
+

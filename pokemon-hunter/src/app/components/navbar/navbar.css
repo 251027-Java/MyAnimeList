@@ -1,0 +1,56 @@
+.custom-navbar {
+  background-color: #dc3545 !important; /* Red background */
+  padding: 1.5rem 0; /* Make it bigger vertically */
+}
+
+.custom-navbar-container {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.navbar-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.custom-nav-link {
+  font-size: 1.5rem !important; /* Bigger text */
+  font-weight: 900 !important; /* Bold to stand out */
+  color: #ffcb05 !important; /* Yellow color */
+  text-shadow: 
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000,
+     0px  0px 4px rgba(0, 0, 0, 0.8); /* Black outline for contrast */
+  margin-right: 1.5rem;
+  transition: transform 0.2s;
+}
+
+.custom-nav-link:hover {
+  color: #ffd700 !important; /* Slightly brighter yellow on hover */
+  transform: scale(1.5);
+}
+
+.pokemon-font {
+  font-family: "Luckiest Guy", "Comic Sans MS", system-ui, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffcb05; /* Pokémon yellow */
+  text-shadow:
+    -2px -2px 0 #2a75bb,
+     2px -2px 0 #2a75bb,
+    -2px  2px 0 #2a75bb,
+     2px  2px 0 #2a75bb,
+     0px  0px 6px #000;
+}
+

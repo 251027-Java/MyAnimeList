@@ -1,0 +1,21 @@
+<div class="container-fluid">
+
+    <div>
+        <!-- Signals are functions; we will use pokemon() instead of pokemon -->
+        <img *ngIf="pokemon().id" src="{{pokemon().sprite}}" alt="" width="150">
+        <span class="pokemon-font">{{pokemon().name | titlecase }}</span>
+    </div>
+
+    <div>
+        <button (click)="getPokemon()" class="btn me-3" 
+        style="background-color: white; font-size: 17px; 
+        font-weight: bold; border: 2px solid black;">Reshuffle</button>
+
+        <button (click)="catchPokemon()" class="btn" style="background-color: white; font-size: 17px; 
+        font-weight: bold; border: 2px solid black;">Catch Pokemon</button>
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,36 @@
+ .pokemon-font {
+  font-family: "Luckiest Guy", "Comic Sans MS", system-ui, sans-serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffcb05; /* Pokémon yellow */
+  text-shadow:
+    -2px -2px 0 #2a75bb,
+     2px -2px 0 #2a75bb,
+    -2px  2px 0 #2a75bb,
+     2px  2px 0 #2a75bb,
+     0px  0px 6px #000;
+}
+
+.login-bg {
+  min-height: 100vh;
+  background-image: url('/bg2.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  max-width: 320px;
+  width: 100%;
+}
+
+button:hover {
+  background-color: black !important;
+  color: white;
+}
+

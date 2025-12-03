@@ -1,0 +1,33 @@
+<div class="container-fluid login-bg">
+
+    <div class="login-form">
+      <input
+        type="text"
+        class="form-control login-input"
+        placeholder="Enter username"
+        style="background-color: #ffcb05; font-weight: bold"
+        [(ngModel)]="username"
+      >
+      <input
+        type="password"
+        class="form-control login-input mt-2"
+        placeholder="Enter password"
+        style="background-color: #ffcb05; font-weight: bold;"
+        (keydown.enter)="login()"
+        [(ngModel)]="password"
+      >
+
+      <button
+        class="btn w-100 mt-2"
+        style="background-color: white;
+        font-size: 17px; font-weight: bold; border: 2px solid black;"
+        (click)="login()"
+      >
+          Login
+          <img src="pokeball.png" alt="pokeball" height="25">
+      </button>
+    </div>
+
+
+
+</div>
