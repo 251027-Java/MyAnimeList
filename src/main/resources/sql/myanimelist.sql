@@ -14,7 +14,7 @@ create table myanimelist.anime (
     anime_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR(100),
     total_episodes int,
-    status VARCHAR(10)
+    status VARCHAR(10),
     avg_rating DOUBLE PRECISION
 )
 
