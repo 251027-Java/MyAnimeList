@@ -29,7 +29,6 @@ export class Catch {
       this.pokemon.set(data)
     })
 
-
   }
 
   catchPokemon(){
