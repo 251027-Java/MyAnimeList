@@ -17,7 +17,7 @@ public class PopulateAnimeTable {
 
         String url = "jdbc:postgresql://localhost:5432/myanimelist";
         String user = "postgres";
-        String password = "xaR501%=";
+        String password = "password";
 
         String insertSQL = "INSERT INTO myanimelist.anime (title, total_episodes, status) VALUES (?, ?, ?)";
 
