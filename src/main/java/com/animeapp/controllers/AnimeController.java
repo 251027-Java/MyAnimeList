@@ -30,6 +30,13 @@ public class AnimeController {
         return ResponseEntity.ok(anime);
     }
 
+
+    // List all anime titles. 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllAnime(){
+        return ResponseEntity.ok(animeService.getAllAnime());
+    }
+
     @PostMapping("/watch")
     public ResponseEntity<?> updateAnimeWatchStatus(@RequestBody UserAnimeWatchedRequest request){
         return  ResponseEntity.ok(animeService.updateAnimeWatchStatus(request));
