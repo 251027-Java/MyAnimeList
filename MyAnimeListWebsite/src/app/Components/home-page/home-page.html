@@ -1,0 +1,18 @@
+<h2>{{title()}}</h2>
+
+  <table border="1" cellpadding="5">
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Total Episodes</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let anime of animeList()">
+      <td>{{ anime.title }}</td>
+      <td>{{ anime.totalEpisodes }}</td>
+      <td>{{ anime.status }}</td>
+    </tr>
+    </tbody>
+  </table>
