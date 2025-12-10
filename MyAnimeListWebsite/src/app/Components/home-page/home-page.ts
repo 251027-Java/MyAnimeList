@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
           .sort((a, b) => a.title.localeCompare(b.title));
 
         this.animeList.set(filteredData.slice(0, 216));
-gi
+
         console.log('Original data length:', data.length);
         console.log('Filtered data length:', filteredData.length);
         console.log('Sliced data length:', this.animeList().length);
