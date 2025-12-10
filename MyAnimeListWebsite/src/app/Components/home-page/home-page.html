@@ -1,18 +1,18 @@
 <h2>{{title()}}</h2>
-
-  <table border="1" cellpadding="5">
-    <thead>
-    <tr>
-      <th>Title</th>
-      <th>Total Episodes</th>
-      <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let anime of animeList()">
-      <td>{{ anime.title }}</td>
-      <td>{{ anime.totalEpisodes }}</td>
-      <td>{{ anime.status }}</td>
-    </tr>
-    </tbody>
-  </table>
+<div class="anime-grid">
+  <div class="anime-card" *ngFor="let anime of animeList()" (click)="toggleFlip(anime.id)"
+    [class.flipped]="isFlipped(anime.id)">
+    <div class="anime-card-inner">
+      <div class="anime-card-front">
+        <h3 class="anime-title">{{ anime.title }}</h3>
+      </div>
+      <div class="anime-card-back">
+        <h3 class="anime-title">{{ anime.title }}</h3>
+        <div class="anime-details">
+          <p><strong>Episodes:</strong> {{ anime.totalEpisodes }}</p>
+          <p><strong>Status:</strong> {{ anime.status }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
