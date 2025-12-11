@@ -1,0 +1,18 @@
+<h2>{{title()}}</h2>
+<div class="anime-grid">
+  <div class="anime-card" *ngFor="let anime of animeList()" (click)="toggleFlip(anime.id)"
+    [class.flipped]="isFlipped(anime.id)">
+    <div class="anime-card-inner">
+      <div class="anime-card-front">
+        <h3 class="anime-title">{{ anime.title }}</h3>
+      </div>
+      <div class="anime-card-back">
+        <h3 class="anime-title">{{ anime.title }}</h3>
+        <div class="anime-details">
+          <p><strong>Episodes:</strong> {{ anime.totalEpisodes }}</p>
+          <p><strong>Status:</strong> {{ anime.status }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

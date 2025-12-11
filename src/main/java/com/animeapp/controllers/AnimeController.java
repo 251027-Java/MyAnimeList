@@ -21,27 +21,24 @@ public class AnimeController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAnimeByTitle(@RequestParam("title") String title){
+    public ResponseEntity<?> getAnimeByTitle(@RequestParam("title") String title) {
         Anime anime = animeService.getAnimeByTitle(title);
 
-        if(Objects.isNull(anime)){
+        if (Objects.isNull(anime)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(anime);
     }
 
-
-    // List all anime titles. 
+    // List all anime titles.
     @GetMapping("/all")
-    public ResponseEntity<?> getAllAnime(){
+    public ResponseEntity<?> getAllAnime() {
         return ResponseEntity.ok(animeService.getAllAnime());
     }
 
     @PostMapping("/watch")
-    public ResponseEntity<?> updateAnimeWatchStatus(@RequestBody UserAnimeWatchedRequest request){
-        return  ResponseEntity.ok(animeService.updateAnimeWatchStatus(request));
+    public ResponseEntity<?> updateAnimeWatchStatus(@RequestBody UserAnimeWatchedRequest request) {
+        return ResponseEntity.ok(animeService.updateAnimeWatchStatus(request));
     }
-
-
 
 }
