@@ -3,6 +3,9 @@ package com.animeapp.service;
 import com.animeapp.exceptions.UserException;
 import com.animeapp.model.User;
 import com.animeapp.repository.UserRepository;
+import com.animeapp.repository.UserAnimeWatchlistRepository;
+import com.animeapp.repository.UserRatingRepository;
+import com.animeapp.repository.UserAnimeWatchedRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,12 +21,19 @@ class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private UserAnimeWatchlistRepository userAnimeWatchlistRepository;
+    @Mock
+    private UserRatingRepository userRatingRepository;
+    @Mock
+    private UserAnimeWatchedRepository userAnimeWatchedRepository;
 
     private UserService userService;
 
     @BeforeEach
     void setUp() {
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, userAnimeWatchlistRepository, userRatingRepository,
+                userAnimeWatchedRepository);
     }
 
     @Test
