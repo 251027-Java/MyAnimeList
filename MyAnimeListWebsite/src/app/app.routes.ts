@@ -3,6 +3,7 @@ import { LoginComponent } from './Components/login/login';
 import { HomePage } from './Components/home-page/home-page';
 import { Dashboard } from './Components/dashboard/dashboard';
 import { authGuard } from './Service/auth.guard';
+import { SignUpComponent } from './Components/sign-up/sign-up';
 
 export const routes: Routes = [
     {
