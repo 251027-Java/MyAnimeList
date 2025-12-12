@@ -106,4 +106,8 @@ public class UserService {
                 .orElse(false);
     }
 
+    public List<UserAnimeWatched> getWatchedAnime(Integer userId) {
+        return userAnimeWatchedRepository.findByUserId(userId);
+    }
+
 }

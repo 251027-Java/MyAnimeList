@@ -1,6 +1,6 @@
 <div class="dashboard-container">
     <h1>Welcome, {{ username() }}</h1>
-    <h2>My Watchlist</h2>
+    <h2>My Anime Watchlist</h2>
 
     <div class="anime-grid" *ngIf="watchlist().length > 0; else emptyList">
         <div class="anime-card" *ngFor="let anime of watchlist()">
@@ -11,7 +11,7 @@
                         <p>Episodes: {{ anime.totalEpisodes }}</p>
                         <p>Status: {{ anime.status }}</p>
                     </div>
-                    <button class="remove-btn" (click)="removeFromWatchlist(anime.id)">Remove</button>
+                    <button class="action-btn" (click)="toggleWatched(anime.id); removeFromWatchlist(anime.id)">Watched?</button>
                 </div>
             </div>
         </div>
@@ -19,5 +19,32 @@
 
     <ng-template #emptyList>
         <p>Your watchlist is empty. Go to Home to add some anime!</p>
+    </ng-template>
+
+    <br />
+    <h2>My Watched Anime</h2>
+
+    <div class="anime-grid" *ngIf="watchedAnime().length > 0; else emptyWatched">
+        <div class="anime-card" *ngFor="let anime of watchedAnime()">
+            <div class="anime-card-inner">
+                <div class="anime-card-front">
+                    <h3 class="anime-title">{{ anime.title }}</h3>
+                    <div class="card-details">
+                        <p>Episodes: {{ anime.totalEpisodes }}</p>
+                        <p>Status: {{ anime.status }}</p>
+                    </div>
+                  <div class="rating-control" *ngIf="!hasRated(anime.id)">
+                    <label>Rating (0-10):</label>
+                    <input type="number" min="0" max="10" #ratingInput>
+                    <button class="action-btn" (click)="setRating(anime.id, ratingInput)">Set Rating</button>
+                  </div>
+                  <p *ngIf="hasRated(anime.id)" style="color: blue; font-weight: bold;">Rating: {{ getRating(anime.id) }}/10</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #emptyWatched>
+        <p>No watched anime yet. Mark anime as watched from your watchlist!</p>
     </ng-template>
 </div>

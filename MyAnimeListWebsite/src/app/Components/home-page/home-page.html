@@ -12,12 +12,8 @@
           <p><strong>Episodes:</strong> {{ anime.totalEpisodes }}</p>
           <p><strong>Status:</strong> {{ anime.status }}</p>
           <div class="user-actions" (click)="$event.stopPropagation()">
-            <button class="action-btn" (click)="addToWatchlist(anime.id)">Add to Watchlist</button>
-            <div class="rating-control">
-              <label>Rating:</label>
-              <input type="number" min="0" max="10" (change)="setRating(anime.id, $event)">
-            </div>
-            <button class="action-btn" (click)="toggleWatched(anime.id)">Watched?</button>
+            <button class="action-btn" *ngIf="!isInWatchlist(anime.id)" (click)="addToWatchlist(anime.id)">Add to Watchlist</button>
+            <p *ngIf="isInWatchlist(anime.id)" style="color: green; font-weight: bold;">✓ In Watchlist</p>
           </div>
         </div>
       </div>

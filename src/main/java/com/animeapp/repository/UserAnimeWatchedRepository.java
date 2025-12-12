@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UserAnimeWatchedRepository extends JpaRepository<UserAnimeWatched, Integer> {
 
     Optional<UserAnimeWatched> findByUserIdAndAnimeId(Integer userId, Integer animeId);
+    
+    java.util.List<UserAnimeWatched> findByUserId(Integer userId);
 }

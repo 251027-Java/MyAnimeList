@@ -25,6 +25,12 @@ public class BasicAuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String path = request.getRequestURI();
+        String method = request.getMethod();
+
+        // Allow OPTIONS (CORS preflight) requests without authentication
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            return true;
+        }
 
         // Allow login and anime/all endpoints without authentication
         if (path.contains("/user/login") || path.contains("/anime/all")) {

@@ -18,12 +18,13 @@ export class HomePage implements OnInit, OnDestroy {
   animeList = signal<Anime[]>([]);
   filteredAnimeList = signal<Anime[]>([]);
   flippedCards = signal<Set<number>>(new Set());
+  addedToWatchlist = signal<Set<number>>(new Set());
   private searchSubscription?: Subscription;
 
   protected readonly title = signal('MyAnimeListWebsite');
   constructor(
-    public animeService: AnimeService, 
-    private userService: UserService, 
+    public animeService: AnimeService,
+    private userService: UserService,
     private authService: AuthService,
     private searchService: SearchService
   ) {}
@@ -53,7 +54,7 @@ export class HomePage implements OnInit, OnDestroy {
     if (query === '') {
       this.filteredAnimeList.set(this.animeList());
     } else {
-      const filtered = this.animeList().filter(anime => 
+      const filtered = this.animeList().filter(anime =>
         anime.title.toLowerCase().includes(query) ||
         anime.id.toString().includes(query)
       );
@@ -85,7 +86,14 @@ export class HomePage implements OnInit, OnDestroy {
     const userId = this.authService.getUserId();
     if (userId) {
       this.userService.addToWatchlist(userId, animeId).subscribe({
-        next: () => alert('Added to watchlist!'),
+        next: () => {
+          this.addedToWatchlist.update(set => {
+            const newSet = new Set(set);
+            newSet.add(animeId);
+            return newSet;
+          });
+          alert('Added to watchlist!');
+        },
         error: (err) => console.error('Error adding to watchlist', err)
       });
     } else {
@@ -93,30 +101,8 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  setRating(animeId: number, event: any) {
-    const rating = +event.target.value;
-    const userId = this.authService.getUserId();
-    if (userId) {
-      this.userService.setRating(userId, animeId, rating).subscribe({
-        next: () => console.log('Rating updated'),
-        error: (err) => console.error('Error setting rating', err)
-      });
-    }
+  isInWatchlist(animeId: number): boolean {
+    return this.addedToWatchlist().has(animeId);
   }
 
-  toggleWatched(animeId: number) {
-    const userId = this.authService.getUserId();
-    if (userId) {
-      // Toggle logic might need current state, but spec says "Watched? button". 
-      // For simplicity, let's assume it sets to true. 
-      // Or if I want to toggle, I'd need to fetch state first. 
-      // Given constraints, I'll make it "Mark as Watched".
-      this.userService.setWatched(userId, animeId, true).subscribe({
-        next: () => alert('Marked as watched!'),
-        error: (err) => console.error('Error marking as watched', err)
-      });
-    } else {
-      alert('Please login first.');
-    }
-  }
 }

@@ -100,4 +100,9 @@ public class UserController {
         return ResponseEntity.ok(userService.isWatched(userId, animeId));
     }
 
+    @GetMapping("/watched/{userId}")
+    ResponseEntity<?> getWatchedAnime(@PathVariable Integer userId) {
+        return ResponseEntity.ok(userService.getWatchedAnime(userId));
+    }
+
 }

@@ -15,7 +15,7 @@ public class UserRating {
     public UserRating() {
     }
 
-    public UserRating(Integer userId, Integer animeId, Integer rating) {
+    public UserRating(Integer userId, Integer animeId, float rating) {
         this.userId = userId;
         this.animeId = animeId;
         this.rating = rating;

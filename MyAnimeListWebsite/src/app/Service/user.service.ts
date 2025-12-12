@@ -62,4 +62,8 @@ export class UserService {
     isWatched(userId: number, animeId: number): Observable<boolean> {
         return this.http.get<boolean>(`${this.apiUrl}/watched/${userId}/${animeId}`);
     }
+
+    getWatchedAnime(userId: number): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/watched/${userId}`);
+    }
 }
