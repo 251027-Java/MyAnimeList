@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './Components/login/login';
-import { HomePage } from './Components/home-page/home-page';
+import { AnimeList } from './Components/anime-list/anime-list';
 import { Dashboard } from './Components/dashboard/dashboard';
 import { authGuard } from './Service/auth.guard';
 import { SignUpComponent } from './Components/sign-up/sign-up';
+import { Home } from './Components/home/home';
 
 export const routes: Routes = [
     {
@@ -16,12 +17,17 @@ export const routes: Routes = [
     },
     {
         path:"animelist",
-        component:HomePage,
+        component:AnimeList,
         canActivate: [authGuard]
     },
     {
         path:"dashboard",
         component:Dashboard,
+        canActivate: [authGuard]
+    },
+       {
+        path:"home",
+        component:Home,
         canActivate: [authGuard]
     }
 ];

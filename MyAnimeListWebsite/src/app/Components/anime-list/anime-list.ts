@@ -7,14 +7,14 @@ import { SearchService } from '../../Service/search.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-anime-list',
   standalone: true,
   imports: [CommonModule, NgFor],
-  templateUrl: './home-page.html',
-  styleUrls: ['./home-page.css']
+  templateUrl: './anime-list.html',
+  styleUrls: ['./anime-list.css']
 })
 
-export class HomePage implements OnInit, OnDestroy {
+export class AnimeList implements OnInit, OnDestroy {
   animeList = signal<Anime[]>([]);
   filteredAnimeList = signal<Anime[]>([]);
   flippedCards = signal<Set<number>>(new Set());

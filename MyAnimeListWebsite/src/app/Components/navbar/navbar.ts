@@ -21,6 +21,11 @@ export class Navbar {
   }
 
   logout() {
+    // If not logged in, stay on sign up page
+    if (!this.authService.isLoggedIn()) {
+      return;
+    }
+
     this.authService.logout();
     this.router.navigate(['/login']);
   }
