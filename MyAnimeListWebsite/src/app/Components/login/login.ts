@@ -1,28 +1,34 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../Service/auth.service';
+import { UserService } from '../../Service/user.service';
 
 @Component({
-  selector: 'app-login-component',
-  imports: [FormsModule],
+  selector: 'app-login',
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: ['./login.css'],
+  imports: [CommonModule, FormsModule]
 })
-
 export class Login {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
   username: string = ""
   password: string = ""
 
   login() {
-    if (this.username === "username" && this.password === "password") {
-      //switch URLs
-      this.router.navigateByUrl("/home")
-    } else {
-      alert("Invalid username or password")
-    }
+    this.authService.login(this.username, this.password).subscribe({
+      next: (user) => {
+        console.log("Login successful", user);
+        this.router.navigateByUrl("/dashboard");
+      },
+      error: (err) => {
+        console.error("Login failed", err);
+        alert("Invalid username or password");
+      }
+    });
   }
-
 }

@@ -92,3 +92,38 @@
     font-size: 0.9em;
     color: #666;
 }
+
+.user-actions {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+}
+
+.action-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.action-btn:hover {
+    background-color: #0056b3;
+}
+
+.rating-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 0.8em;
+}
+
+.rating-control input {
+    width: 40px;
+    padding: 2px;
+}

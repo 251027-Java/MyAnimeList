@@ -6,11 +6,13 @@ import jakarta.persistence.*;
 @Table(name = "anime", schema = "myanimelist")
 public class Anime {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer animeId;
     private String title;
     private Integer totalEpisodes;
     @Enumerated(EnumType.STRING)
     private Status status;
+    private Double avgRating;
 
     public Integer getId() {
         return animeId;
@@ -19,7 +21,6 @@ public class Anime {
     public String getTitle() {
         return title;
     }
-
 
     public Integer getTotalEpisodes() {
         return totalEpisodes;
@@ -43,5 +44,13 @@ public class Anime {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(Double avgRating) {
+        this.avgRating = avgRating;
     }
 }
