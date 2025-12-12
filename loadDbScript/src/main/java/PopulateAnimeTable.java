@@ -14,7 +14,7 @@ public class PopulateAnimeTable {
     public static void main(String[] args) {
         String csvFile = "src/main/java/AnimeList.csv"; // path to your CSV file
 
-        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String url = "jdbc:postgresql://localhost:5433/postgres";
         String user = "postgres";
         String password = "xaR501%=";
 

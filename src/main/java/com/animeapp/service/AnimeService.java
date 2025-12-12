@@ -34,18 +34,25 @@ public class AnimeService {
     }
 
     public UserAnimeWatched updateAnimeWatchStatus(UserAnimeWatchedRequest request) {
-        UserAnimeWatched userAnimeWatched = new UserAnimeWatched(request.getUserId(), request.getAnimeId(), request.getWatched());
-        UserAnimeWatched exists = userAnimeWatchedRepository.findByUserIdAndAnimeId(userAnimeWatched.getUserId(), userAnimeWatched.getAnimeId());
+        UserAnimeWatched userAnimeWatched = new UserAnimeWatched(request.getUserId(), request.getAnimeId(),
+                request.getWatched());
+        Optional<UserAnimeWatched> existsOpt = userAnimeWatchedRepository
+                .findByUserIdAndAnimeId(userAnimeWatched.getUserId(), userAnimeWatched.getAnimeId());
 
-        //Save a record in the table if a user has not set an anime as watched or not watched
-        if (Objects.isNull(exists)) {
+        // Save a record in the table if a user has not set an anime as watched or not
+        // watched
+        if (existsOpt.isEmpty()) {
             return userAnimeWatchedRepository.save(userAnimeWatched);
         }
-        //if the user has previously set an anime as watched or not and wishes to change it, confirm that the watched
-        //statuses are different and update the same record.
-        else if (exists.getWatched() != request.getWatched()) {
-            exists.setWatched(request.getWatched());
-            return userAnimeWatchedRepository.save(exists);
+        // if the user has previously set an anime as watched or not and wishes to
+        // change it, confirm that the watched
+        // statuses are different and update the same record.
+        else {
+            UserAnimeWatched exists = existsOpt.get();
+            if (exists.getWatched() != request.getWatched()) {
+                exists.setWatched(request.getWatched());
+                return userAnimeWatchedRepository.save(exists);
+            }
         }
         return null;
     }

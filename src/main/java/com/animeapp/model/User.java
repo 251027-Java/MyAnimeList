@@ -7,13 +7,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "user", schema = "myanimelist")
+@Table(name = "users", schema = "myanimelist")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
     private String username;
     private String password;
+
+    public User() {
+    }
 
     public User(String username, String password) {
         this.username = username;
@@ -38,5 +41,9 @@ public class User {
 
     public int getUserId() {
         return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
