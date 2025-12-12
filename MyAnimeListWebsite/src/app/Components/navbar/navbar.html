@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="navbar-nav">
+      <a class="nav-link" routerLink="dashboard">Dashboard</a>
+      <a class="nav-link" routerLink="home">Anime List</a>
+    </div>
+
+    <div class="navbar-brand">
+      <h1>MyAnimeList</h1>
+    </div>
+
+    <div class="navbar-search">
+      <input 
+        class="search-input" 
+        type="search" 
+        placeholder="Search anime..." 
+        aria-label="Search"
+        [(ngModel)]="searchQuery"
+        (input)="onSearch()"
+      />
+    </div>
+  </div>
+</nav>
