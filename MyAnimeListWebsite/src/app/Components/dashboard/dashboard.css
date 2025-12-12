@@ -2,6 +2,28 @@
     padding: 20px;
 }
 
+.stats-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.stats-section h3 {
+    color: white;
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+
+.most-watched {
+    color: #fff;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 .anime-grid {
     display: flex;
     flex-wrap: wrap;

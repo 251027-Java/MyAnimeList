@@ -1,2 +1,29 @@
-<h1>Welcome to My AnimeList!</h1>
-<p>Go to AnimeList to start adding animes to your watchlist.</p>
+<div class="home-container">
+  <h1>Welcome to My AnimeList!</h1>
+  <p>Go to AnimeList to start adding animes to your watchlist.</p>
+
+  <div class="stats-section" *ngIf="mostWatchedAnimeList().length > 0">
+    <h2>Most Watched Animes (Across All Users)</h2>
+    <div class="top-rated-list">
+      <div *ngFor="let anime of mostWatchedAnimeList(); let i = index" class="rated-item">
+        <span class="rating-number">{{ i + 1 }}.</span>
+        <span class="rating-title">{{ anime.title }}</span>
+        <span class="rating-score">({{ anime.userCount }} {{ anime.userCount === 1 ? 'user' : 'users' }})</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-section">
+    <h2>Top Average Rated Animes</h2>
+    <div class="top-rated-list" *ngIf="topRatedAnimeList().length > 0; else noRatings">
+      <div *ngFor="let anime of topRatedAnimeList(); let i = index" class="rated-item">
+        <span class="rating-number">{{ i + 1 }}.</span>
+        <span class="rating-title">{{ anime.title }}</span>
+        <span class="rating-score">({{ anime.rating }}/10)</span>
+      </div>
+    </div>
+    <ng-template #noRatings>
+      <p class="most-watched">No rated animes with rating 6 or above</p>
+    </ng-template>
+  </div>
+</div>

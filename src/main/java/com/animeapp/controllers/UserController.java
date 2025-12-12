@@ -105,4 +105,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getWatchedAnime(userId));
     }
 
+    @GetMapping("/stats/most-watched")
+    ResponseEntity<?> getMostWatchedAnime() {
+        return ResponseEntity.ok(userService.getMostWatchedAnimeWithCount());
+    }
+
+    @GetMapping("/stats/top-rated")
+    ResponseEntity<?> getTopRatedAnime() {
+        return ResponseEntity.ok(userService.getTopRatedAnime());
+    }
+
 }

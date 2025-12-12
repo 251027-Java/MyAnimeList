@@ -14,6 +14,7 @@ import com.animeapp.repository.UserRatingRepository;
 import com.animeapp.repository.UserAnimeWatchedRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -108,6 +109,28 @@ public class UserService {
 
     public List<UserAnimeWatched> getWatchedAnime(Integer userId) {
         return userAnimeWatchedRepository.findByUserId(userId);
+    }
+
+    public List<Map<Integer, Long>> getMostWatchedAnimeWithCount() {
+        List<Object[]> results = userAnimeWatchedRepository.findMostWatchedAnime();
+        return results.stream()
+                .map(row -> {
+                    Map<Integer, Long> map = new java.util.HashMap<>();
+                    map.put((Integer) row[0], (Long) row[1]);
+                    return map;
+                })
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    public List<Map<Integer, Double>> getTopRatedAnime() {
+        List<Object[]> results = userRatingRepository.findTopRatedAnime();
+        return results.stream()
+                .map(row -> {
+                    Map<Integer, Double> map = new java.util.HashMap<>();
+                    map.put((Integer) row[0], ((Number) row[1]).doubleValue());
+                    return map;
+                })
+                .collect(java.util.stream.Collectors.toList());
     }
 
 }

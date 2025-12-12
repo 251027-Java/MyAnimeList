@@ -66,4 +66,12 @@ export class UserService {
     getWatchedAnime(userId: number): Observable<any[]> {
         return this.http.get<any[]>(`${this.apiUrl}/watched/${userId}`);
     }
+
+    getMostWatchedAnime(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/stats/most-watched`);
+    }
+
+    getTopRatedAnime(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/stats/top-rated`);
+    }
 }
