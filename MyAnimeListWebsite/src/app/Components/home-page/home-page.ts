@@ -1,8 +1,10 @@
-import { Component, signal, OnInit } from '@angular/core'; // import OnInit
+import { Component, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { AnimeService, Anime } from '../../Service/anime-service';
 import { UserService } from '../../Service/user.service';
 import { AuthService } from '../../Service/auth.service';
+import { SearchService } from '../../Service/search.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,19 @@ import { AuthService } from '../../Service/auth.service';
   styleUrls: ['./home-page.css']
 })
 
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   animeList = signal<Anime[]>([]);
+  filteredAnimeList = signal<Anime[]>([]);
   flippedCards = signal<Set<number>>(new Set());
+  private searchSubscription?: Subscription;
 
   protected readonly title = signal('MyAnimeListWebsite');
-  constructor(public animeService: AnimeService, private userService: UserService, private authService: AuthService) { };
+  constructor(
+    public animeService: AnimeService, 
+    private userService: UserService, 
+    private authService: AuthService,
+    private searchService: SearchService
+  ) {}
 
   ngOnInit() {
     this.animeService.getAllAnime().subscribe({
@@ -26,10 +35,34 @@ export class HomePage implements OnInit {
           .filter(a => a.totalEpisodes > 0 && a.title !== '◯')
           .sort((a, b) => a.title.localeCompare(b.title));
 
-        this.animeList.set(filteredData.slice(0, 216));
+        const allAnime = filteredData.slice(0, 216);
+        this.animeList.set(allAnime);
+        this.filteredAnimeList.set(allAnime);
       },
       error: (err: any) => console.error('Error fetching anime:', err),
     });
+
+    // Subscribe to search query changes for real-time filtering
+    this.searchSubscription = this.searchService.searchQuery$.subscribe(query => {
+      this.filterAnimeList(query);
+    });
+  }
+
+  private filterAnimeList(searchQuery: string) {
+    const query = searchQuery.toLowerCase().trim();
+    if (query === '') {
+      this.filteredAnimeList.set(this.animeList());
+    } else {
+      const filtered = this.animeList().filter(anime => 
+        anime.title.toLowerCase().includes(query) ||
+        anime.id.toString().includes(query)
+      );
+      this.filteredAnimeList.set(filtered);
+    }
+  }
+
+  ngOnDestroy() {
+    this.searchSubscription?.unsubscribe();
   }
 
   toggleFlip(id: number) {

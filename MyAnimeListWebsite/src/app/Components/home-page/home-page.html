@@ -1,6 +1,6 @@
 <h2>{{title()}}</h2>
 <div class="anime-grid">
-  <div class="anime-card" *ngFor="let anime of animeList()" (click)="toggleFlip(anime.id)"
+  <div class="anime-card" *ngFor="let anime of filteredAnimeList()" (click)="toggleFlip(anime.id)"
     [class.flipped]="isFlipped(anime.id)">
     <div class="anime-card-inner">
       <div class="anime-card-front">
