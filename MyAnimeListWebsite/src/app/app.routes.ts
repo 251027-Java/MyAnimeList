@@ -1,13 +1,17 @@
 import { Routes } from '@angular/router';
-import { Login } from './Components/login/login';
+import { LoginComponent } from './Components/login/login';
 import { HomePage } from './Components/home-page/home-page';
 import { Dashboard } from './Components/dashboard/dashboard';
 import { authGuard } from './Service/auth.guard';
 
 export const routes: Routes = [
     {
+        path: "",
+        component: SignUpComponent
+    },
+    {
         path:"",
-        component:Login
+        component:LoginComponent
     },
     {
         path:"home",
