@@ -13,29 +13,35 @@ create schema myanimelist;
 create table myanimelist.anime (
     anime_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR(100),
-    total_episodes int,
-    status VARCHAR(10),
+    total_episodes INTEGER,
+    status VARCHAR(20),
     avg_rating DOUBLE PRECISION
-)
+);
 
-create table myanimelist.user (
+create table myanimelist.users (
     user_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    username VARCHAR(50),
-    password VARCHAR(50)
-)
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL
+);
 
 create table myanimelist.user_anime_watched (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    anime_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES myanimelist.users(user_id) ON DELETE CASCADE,
+    anime_id INTEGER NOT NULL REFERENCES myanimelist.anime(anime_id) ON DELETE CASCADE,
     watched BOOLEAN
 );
 
 create table myanimelist.watchlist(
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id INTEGER NOT NULL REFERENCES myanimelist.user(user_id),
-    anime_id INTEGER NOT NULL REFERENCES myanimelist.anime(anime_id),
+    user_id INTEGER NOT NULL REFERENCES myanimelist.users(user_id) ON DELETE CASCADE,
+    anime_id INTEGER NOT NULL REFERENCES myanimelist.anime(anime_id) ON DELETE CASCADE,
     added_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(user_id, anime_id)
 );
 
+create table myanimelist.rating(
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES myanimelist.users(user_id) ON DELETE CASCADE,
+    anime_id INTEGER NOT NULL REFERENCES myanimelist.anime(anime_id) ON DELETE CASCADE,
+    rating FLOAT NOT NULL CHECK (rating >= 1 AND rating <= 10)
+);

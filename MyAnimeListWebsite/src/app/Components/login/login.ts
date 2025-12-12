@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../Service/auth.service';
+import { UserService } from '../../Service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,29 +12,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.css'],
   imports: [CommonModule, FormsModule]
 })
-export class LoginComponent {
-  username!: string;
-  password!: string;
+export class Login {
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.username = '';
-    this.password = '';
-  }
+  constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
+
+  username: string = ""
+  password: string = ""
+
   login() {
-    const body = {
-      username: this.username,
-      password: this.password
-    };
-
-    this.http.post('http://localhost:8080/login', body)
-      .subscribe(
-        response => {
-          // Redirect to dashboard or home page
-          this.router.navigate(['/home']);
-        },
-        error => {
-          console.error(error);
-        }
-      );
+    this.authService.login(this.username, this.password).subscribe({
+      next: (user) => {
+        console.log("Login successful", user);
+        this.router.navigateByUrl("/dashboard");
+      },
+      error: (err) => {
+        console.error("Login failed", err);
+        alert("Invalid username or password");
+      }
+    });
   }
 }

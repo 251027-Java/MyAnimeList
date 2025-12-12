@@ -59,7 +59,7 @@ class AnimeServiceTest {
     void updateAnimeWatchStatusCreatesRecordWhenNotExisting() {
         UserAnimeWatchedRequest request = buildRequest(1, 2, true);
         UserAnimeWatched saved = new UserAnimeWatched(1, 2, true);
-        when(userAnimeWatchedRepository.findByUserIdAndAnimeId(1, 2)).thenReturn(null);
+        when(userAnimeWatchedRepository.findByUserIdAndAnimeId(1, 2)).thenReturn(java.util.Optional.empty());
         when(userAnimeWatchedRepository.save(any(UserAnimeWatched.class))).thenReturn(saved);
 
         UserAnimeWatched result = animeService.updateAnimeWatchStatus(request);
@@ -77,7 +77,7 @@ class AnimeServiceTest {
     void updateAnimeWatchStatusUpdatesExistingWhenStateChanges() {
         UserAnimeWatchedRequest request = buildRequest(3, 4, false);
         UserAnimeWatched existing = new UserAnimeWatched(3, 4, true);
-        when(userAnimeWatchedRepository.findByUserIdAndAnimeId(3, 4)).thenReturn(existing);
+        when(userAnimeWatchedRepository.findByUserIdAndAnimeId(3, 4)).thenReturn(java.util.Optional.of(existing));
         when(userAnimeWatchedRepository.save(existing)).thenReturn(existing);
 
         UserAnimeWatched result = animeService.updateAnimeWatchStatus(request);
@@ -91,7 +91,7 @@ class AnimeServiceTest {
     void updateAnimeWatchStatusReturnsNullWhenStateSame() {
         UserAnimeWatchedRequest request = buildRequest(5, 6, true);
         UserAnimeWatched existing = new UserAnimeWatched(5, 6, true);
-        when(userAnimeWatchedRepository.findByUserIdAndAnimeId(5, 6)).thenReturn(existing);
+        when(userAnimeWatchedRepository.findByUserIdAndAnimeId(5, 6)).thenReturn(java.util.Optional.of(existing));
 
         UserAnimeWatched result = animeService.updateAnimeWatchStatus(request);
 
