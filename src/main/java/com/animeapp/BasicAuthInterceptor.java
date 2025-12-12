@@ -32,8 +32,9 @@ public class BasicAuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        // Allow login and anime/all endpoints without authentication
-        if (path.contains("/user/login") || path.contains("/anime/all")) {
+        // Allow login, signup (root path), and anime/all endpoints without
+        // authentication
+        if (path.contains("/login") || path.contains("/anime/all") || path.equals("/")) {
             return true;
         }
 
