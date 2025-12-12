@@ -7,18 +7,20 @@ import { SearchService } from '../../Service/search.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-anime-list',
   standalone: true,
   imports: [CommonModule, NgFor],
-  templateUrl: './home-page.html',
-  styleUrls: ['./home-page.css']
+  templateUrl: './anime-list.html',
+  styleUrls: ['./anime-list.css']
 })
 
-export class HomePage implements OnInit, OnDestroy {
+export class AnimeList implements OnInit, OnDestroy {
   animeList = signal<Anime[]>([]);
   filteredAnimeList = signal<Anime[]>([]);
   flippedCards = signal<Set<number>>(new Set());
   addedToWatchlist = signal<Set<number>>(new Set());
+  userWatchlist = signal<Set<number>>(new Set());
+  userWatchedAnime = signal<Set<number>>(new Set());
   private searchSubscription?: Subscription;
 
   protected readonly title = signal('MyAnimeListWebsite');
@@ -30,6 +32,27 @@ export class HomePage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // Load user's watchlist and watched anime
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.userService.getWatchlist(userId).subscribe({
+        next: (watchlist) => {
+          const watchlistIds = new Set(watchlist.map((item: any) => item.animeId));
+          this.userWatchlist.set(watchlistIds);
+          this.addedToWatchlist.set(watchlistIds);
+        },
+        error: (err: any) => console.error('Error fetching watchlist:', err),
+      });
+
+      this.userService.getWatchedAnime(userId).subscribe({
+        next: (watchedAnime) => {
+          const watchedIds = new Set(watchedAnime.map((item: any) => item.animeId));
+          this.userWatchedAnime.set(watchedIds);
+        },
+        error: (err: any) => console.error('Error fetching watched anime:', err),
+      });
+    }
+
     this.animeService.getAllAnime().subscribe({
       next: (data) => {
         const filteredData = data
@@ -84,9 +107,21 @@ export class HomePage implements OnInit, OnDestroy {
 
   addToWatchlist(animeId: number) {
     const userId = this.authService.getUserId();
+    
+    // Check if anime is already in watchlist
+    if (this.userWatchlist().has(animeId)) {
+      alert('This anime is already in your watchlist!');
+      return;
+    }
+
     if (userId) {
       this.userService.addToWatchlist(userId, animeId).subscribe({
         next: () => {
+          this.userWatchlist.update(set => {
+            const newSet = new Set(set);
+            newSet.add(animeId);
+            return newSet;
+          });
           this.addedToWatchlist.update(set => {
             const newSet = new Set(set);
             newSet.add(animeId);
@@ -103,6 +138,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   isInWatchlist(animeId: number): boolean {
     return this.addedToWatchlist().has(animeId);
+  }
+
+  isWatched(animeId: number): boolean {
+    return this.userWatchedAnime().has(animeId);
   }
 
 }
