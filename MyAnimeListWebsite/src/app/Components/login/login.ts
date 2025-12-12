@@ -12,7 +12,7 @@ import { UserService } from '../../Service/user.service';
   styleUrls: ['./login.css'],
   imports: [CommonModule, FormsModule]
 })
-export class Login {
+export class LoginComponent {
 
   constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
