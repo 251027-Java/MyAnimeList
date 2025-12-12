@@ -42,6 +42,34 @@ export class Dashboard implements OnInit {
           const myWatched = data.anime.filter(a => watchedIds.has(a.id));
           this.watchlist.set(myAnime);
           this.watchedAnime.set(myWatched);
+
+          // Load ratings for all anime in watchlist and watched
+          const allAnimeIds = new Set([...watchlistIds, ...watchedIds]);
+          const ratingRequests = Array.from(allAnimeIds).map(animeId =>
+            this.userService.getRating(userId, animeId).pipe(
+              map(rating => {
+                // Extract rating value if it's an object
+                const ratingValue = rating && typeof rating === 'object' ? rating.rating : rating;
+                return { animeId, rating: ratingValue };
+              }),
+              catchError(() => of({ animeId, rating: null }))
+            )
+          );
+
+          if (ratingRequests.length > 0) {
+            forkJoin(ratingRequests).subscribe({
+              next: (ratings) => {
+                const ratingMap = new Map<number, number>();
+                ratings.forEach(r => {
+                  if (r.rating !== null && r.rating !== undefined) {
+                    ratingMap.set(r.animeId, r.rating);
+                  }
+                });
+                this.ratedAnime.set(ratingMap);
+              },
+              error: (err) => console.error('Error loading ratings', err)
+            });
+          }
         },
         error: (err) => console.error('Error loading dashboard', err)
       });

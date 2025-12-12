@@ -15,7 +15,7 @@ export const routes: Routes = [
         component:LoginComponent
     },
     {
-        path:"home",
+        path:"animelist",
         component:HomePage,
         canActivate: [authGuard]
     },
