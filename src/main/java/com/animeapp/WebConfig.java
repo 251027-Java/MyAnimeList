@@ -24,9 +24,7 @@ public class WebConfig {
 
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(basicAuthInterceptor)
-                        .addPathPatterns("/**")
-                        .excludePathPatterns("/user/login", "/user/register", "/anime/all");
+                registry.addInterceptor(basicAuthInterceptor);
             }
         };
     }
