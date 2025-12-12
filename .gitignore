@@ -1,3 +1,7 @@
+# Ignore these 2 files
+src/main/resources/application.properties
+loadDbScript/src/main/java/PopulateAnimeTable.java
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
