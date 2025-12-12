@@ -43,5 +43,5 @@ create table myanimelist.rating(
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES myanimelist.users(user_id) ON DELETE CASCADE,
     anime_id INTEGER NOT NULL REFERENCES myanimelist.anime(anime_id) ON DELETE CASCADE,
-    rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 10)
+    rating FLOAT NOT NULL CHECK (rating >= 1 AND rating <= 10)
 );
