@@ -14,4 +14,10 @@ public interface UserAnimeWatchedRepository extends JpaRepository<UserAnimeWatch
     
     @org.springframework.data.jpa.repository.Query("SELECT w.animeId, COUNT(DISTINCT w.userId) as watchCount FROM UserAnimeWatched w WHERE w.watched = TRUE GROUP BY w.animeId ORDER BY watchCount DESC")
     java.util.List<Object[]> findMostWatchedAnime();
+    
+    @org.springframework.data.jpa.repository.Query("SELECT w.animeId, COUNT(DISTINCT w.userId) as watchCount FROM UserAnimeWatched w WHERE w.watched = TRUE GROUP BY w.animeId ORDER BY watchCount DESC LIMIT 5")
+    java.util.List<Object[]> findTop5MostWatchedAnime();
+    
+    @org.springframework.data.jpa.repository.Query("SELECT w.animeId, COUNT(DISTINCT w.userId) as watchCount FROM UserAnimeWatched w WHERE w.watched = TRUE AND w.animeId NOT IN :excludeIds GROUP BY w.animeId ORDER BY watchCount ASC LIMIT 5")
+    java.util.List<Object[]> findLeastWatchedAnimeExcluding(java.util.List<Integer> excludeIds);
 }

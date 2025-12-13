@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 export class AnimeList implements OnInit, OnDestroy {
   animeList = signal<Anime[]>([]);
   filteredAnimeList = signal<Anime[]>([]);
+  searchQuery = signal<string>('');
   flippedCards = signal<Set<number>>(new Set());
   addedToWatchlist = signal<Set<number>>(new Set());
   userWatchlist = signal<Set<number>>(new Set());
@@ -74,12 +75,12 @@ export class AnimeList implements OnInit, OnDestroy {
 
   private filterAnimeList(searchQuery: string) {
     const query = searchQuery.toLowerCase().trim();
+    this.searchQuery.set(query);
     if (query === '') {
       this.filteredAnimeList.set(this.animeList());
     } else {
       const filtered = this.animeList().filter(anime =>
-        anime.title.toLowerCase().includes(query) ||
-        anime.id.toString().includes(query)
+        anime.title.toLowerCase().includes(query)
       );
       this.filteredAnimeList.set(filtered);
     }

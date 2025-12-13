@@ -1,5 +1,5 @@
 <h2>{{title()}}</h2>
-<div class="anime-grid">
+<div class="anime-grid" *ngIf="filteredAnimeList().length > 0; else noResults">
   <div class="anime-card" *ngFor="let anime of filteredAnimeList()" (click)="toggleFlip(anime.id)"
     [class.flipped]="isFlipped(anime.id)">
     <div class="anime-card-inner">
@@ -21,3 +21,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #noResults>
+  <div style="padding: 40px; text-align: center;">
+    <p style="font-size: 1.2em; color: #666;" *ngIf="searchQuery()">No results found for "{{ searchQuery() }}"</p>
+  </div>
+</ng-template>

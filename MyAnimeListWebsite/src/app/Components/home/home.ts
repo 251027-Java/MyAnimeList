@@ -11,7 +11,9 @@ import { AnimeService, Anime } from '../../Service/anime-service';
 })
 export class Home implements OnInit {
   mostWatchedAnimeList = signal<Array<{title: string, userCount: number}>>([]);
+  leastWatchedAnimeList = signal<Array<{title: string, userCount: number}>>([]);
   topRatedAnimeList = signal<Array<{title: string, rating: number}>>([]);
+  leastRatedAnimeList = signal<Array<{title: string, rating: number}>>([]);
 
   constructor(
     private userService: UserService,
@@ -54,8 +56,6 @@ export class Home implements OnInit {
               .map((item: any) => {
                 const animeId = Object.keys(item)[0];
                 const rating = Object.values(item)[0] as number;
-                // Filter out ratings below 6
-                if (rating < 6) return null;
                 const anime = data.find((a: Anime) => a.id === parseInt(animeId));
                 return anime ? { title: anime.title, rating } : null;
               })
@@ -63,6 +63,38 @@ export class Home implements OnInit {
             this.topRatedAnimeList.set(topRatedList);
           },
           error: (err: any) => console.error('Error fetching top rated:', err),
+        });
+
+        // Load least watched anime
+        this.userService.getLeastWatchedAnime().subscribe({
+          next: (leastWatched) => {
+            const leastWatchedList = leastWatched
+              .map((item: any) => {
+                const animeId = Object.keys(item)[0];
+                const userCount = Object.values(item)[0] as number;
+                const anime = data.find((a: Anime) => a.id === parseInt(animeId));
+                return anime ? { title: anime.title, userCount } : null;
+              })
+              .filter((item: {title: string, userCount: number} | null) => item !== null) as Array<{title: string, userCount: number}>;
+            this.leastWatchedAnimeList.set(leastWatchedList);
+          },
+          error: (err: any) => console.error('Error fetching least watched:', err),
+        });
+
+        // Load least rated anime
+        this.userService.getLeastRatedAnime().subscribe({
+          next: (leastRated) => {
+            const leastRatedList = leastRated
+              .map((item: any) => {
+                const animeId = Object.keys(item)[0];
+                const rating = Object.values(item)[0] as number;
+                const anime = data.find((a: Anime) => a.id === parseInt(animeId));
+                return anime ? { title: anime.title, rating } : null;
+              })
+              .filter((item: {title: string, rating: number} | null) => item !== null) as Array<{title: string, rating: number}>;
+            this.leastRatedAnimeList.set(leastRatedList);
+          },
+          error: (err: any) => console.error('Error fetching least rated:', err),
         });
       },
       error: (err: any) => console.error('Error fetching anime:', err),

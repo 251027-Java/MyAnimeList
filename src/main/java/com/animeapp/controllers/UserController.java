@@ -115,4 +115,14 @@ public class UserController {
         return ResponseEntity.ok(userService.getTopRatedAnime());
     }
 
+    @GetMapping("/stats/least-watched")
+    ResponseEntity<?> getLeastWatchedAnime() {
+        return ResponseEntity.ok(userService.getLeastWatchedAnime());
+    }
+
+    @GetMapping("/stats/least-rated")
+    ResponseEntity<?> getLeastRatedAnime() {
+        return ResponseEntity.ok(userService.getLeastRatedAnime());
+    }
+
 }

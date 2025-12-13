@@ -23,4 +23,26 @@
       </div>
     </div>
   </div>
+
+  <div class="stats-section" *ngIf="leastWatchedAnimeList().length > 0">
+    <h2>Least Watched Animes</h2>
+    <div class="top-rated-list">
+      <div *ngFor="let anime of leastWatchedAnimeList(); let i = index" class="rated-item">
+        <span class="rating-number">{{ i + 1 }}.</span>
+        <span class="rating-title">{{ anime.title }}</span>
+        <span class="rating-score">({{ anime.userCount }} {{ anime.userCount === 1 ? 'user' : 'users' }})</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-section" *ngIf="leastRatedAnimeList().length > 0">
+    <h2>Least Average Rated Animes</h2>
+    <div class="top-rated-list">
+      <div *ngFor="let anime of leastRatedAnimeList(); let i = index" class="rated-item">
+        <span class="rating-number">{{ i + 1 }}.</span>
+        <span class="rating-title">{{ anime.title }}</span>
+        <span class="rating-score">({{ formatRating(anime.rating) }}/10)</span>
+      </div>
+    </div>
+  </div>
 </div>

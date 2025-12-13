@@ -33,6 +33,8 @@ export class AuthService {
         sessionStorage.setItem('username', user.username);
         sessionStorage.setItem('password', user.password); // Note: storing password in session storage is not secure but keeping valid for now as per existing pattern
         sessionStorage.setItem('userId', user.userId.toString());
+        // Mark that user has logged in before
+        localStorage.setItem('hasLoggedInBefore', 'true');
       })
     );
   }
@@ -44,10 +46,15 @@ export class AuthService {
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('password');
     sessionStorage.removeItem('userId');
+    // Note: hasLoggedInBefore flag is intentionally NOT cleared, so returning users go to login instead of signup
   }
 
   isLoggedIn(): boolean {
     return this.userId !== null;
+  }
+
+  hasLoggedInBefore(): boolean {
+    return localStorage.getItem('hasLoggedInBefore') === 'true';
   }
 
   getUserId(): number | null {

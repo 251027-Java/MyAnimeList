@@ -112,8 +112,16 @@ public class UserService {
     }
 
     public List<Map<Integer, Long>> getMostWatchedAnimeWithCount() {
-        List<Object[]> results = userAnimeWatchedRepository.findMostWatchedAnime();
-        return results.stream()
+        List<Object[]> allResults = userAnimeWatchedRepository.findMostWatchedAnime();
+        // Filter only anime with 2+ users (exclude 1-user anime)
+        List<Object[]> twoOrMoreUsers = allResults.stream()
+                .filter(row -> (Long) row[1] >= 2)
+                .collect(java.util.stream.Collectors.toList());
+
+        // Calculate limit: if total < 10, show half; otherwise show up to 5
+        int limit = twoOrMoreUsers.size() < 10 ? (twoOrMoreUsers.size() + 1) / 2 : 5;
+        return twoOrMoreUsers.stream()
+                .limit(limit)
                 .map(row -> {
                     Map<Integer, Long> map = new java.util.HashMap<>();
                     map.put((Integer) row[0], (Long) row[1]);
@@ -123,8 +131,90 @@ public class UserService {
     }
 
     public List<Map<Integer, Double>> getTopRatedAnime() {
-        List<Object[]> results = userRatingRepository.findTopRatedAnime();
-        return results.stream()
+        List<Object[]> allResults = userRatingRepository.findTopRatedAnime();
+        // Calculate limit: if total < 10, show half; otherwise show up to 5
+        int limit = allResults.size() < 10 ? (allResults.size() + 1) / 2 : 5;
+        return allResults.stream()
+                .limit(limit)
+                .map(row -> {
+                    Map<Integer, Double> map = new java.util.HashMap<>();
+                    map.put((Integer) row[0], ((Number) row[1]).doubleValue());
+                    return map;
+                })
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    public List<Map<Integer, Long>> getLeastWatchedAnime() {
+        List<Object[]> allResults = userAnimeWatchedRepository.findMostWatchedAnime();
+        if (allResults.isEmpty()) {
+            return List.of();
+        }
+
+        // Separate 1-user and 2+ user anime
+        List<Object[]> oneUserAnime = allResults.stream()
+                .filter(row -> (Long) row[1] == 1)
+                .collect(java.util.stream.Collectors.toList());
+
+        List<Object[]> twoOrMoreUsers = allResults.stream()
+                .filter(row -> (Long) row[1] >= 2)
+                .collect(java.util.stream.Collectors.toList());
+
+        // Calculate limits for most/least watched
+        int mostWatchedLimit = twoOrMoreUsers.size() < 10 ? (twoOrMoreUsers.size() + 1) / 2 : 5;
+
+        // Get most watched IDs (2+ users only)
+        List<Integer> mostWatchedIds = twoOrMoreUsers.stream()
+                .limit(mostWatchedLimit)
+                .map(row -> (Integer) row[0])
+                .collect(java.util.stream.Collectors.toList());
+
+        // Calculate least watched limit
+        int leastWatchedLimit = twoOrMoreUsers.size() < 10 ? (twoOrMoreUsers.size() + 1) / 2 : 5;
+
+        // Get bottom entries from 2+ users (excluding most watched)
+        List<Object[]> leastResults = new java.util.ArrayList<>();
+        if (!mostWatchedIds.isEmpty()) {
+            List<Object[]> bottomTwoOrMore = userAnimeWatchedRepository.findLeastWatchedAnimeExcluding(mostWatchedIds);
+            leastResults.addAll(bottomTwoOrMore);
+        } else {
+            leastResults.addAll(twoOrMoreUsers);
+        }
+
+        // Fill remaining slots with 1-user anime if needed
+        if (leastResults.size() < leastWatchedLimit) {
+            int slotsNeeded = leastWatchedLimit - leastResults.size();
+            leastResults.addAll(oneUserAnime.stream().limit(slotsNeeded).collect(java.util.stream.Collectors.toList()));
+        }
+
+        return leastResults.stream()
+                .limit(leastWatchedLimit)
+                .map(row -> {
+                    Map<Integer, Long> map = new java.util.HashMap<>();
+                    map.put((Integer) row[0], (Long) row[1]);
+                    return map;
+                })
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    public List<Map<Integer, Double>> getLeastRatedAnime() {
+        List<Object[]> allResults = userRatingRepository.findTopRatedAnime();
+        if (allResults.isEmpty()) {
+            return List.of();
+        }
+
+        // Calculate how many to show in least rated
+        int totalLimit = allResults.size() < 10 ? (allResults.size() + 1) / 2 : 5;
+
+        // Get top rated IDs to exclude
+        List<Integer> topRatedIds = allResults.stream()
+                .limit(totalLimit)
+                .map(row -> (Integer) row[0])
+                .collect(java.util.stream.Collectors.toList());
+
+        // Get least rated, excluding top rated
+        List<Object[]> leastResults = userRatingRepository.findLeastRatedAnimeExcluding(topRatedIds);
+        return leastResults.stream()
+                .limit(totalLimit)
                 .map(row -> {
                     Map<Integer, Double> map = new java.util.HashMap<>();
                     map.put((Integer) row[0], ((Number) row[1]).doubleValue());
