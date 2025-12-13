@@ -133,9 +133,23 @@ public class UserService {
     public List<Map<Integer, Double>> getTopRatedAnime() {
         List<Object[]> allResults = userRatingRepository.findTopRatedAnime();
         // Calculate limit: if total < 10, show half; otherwise show up to 5
-        int limit = allResults.size() < 10 ? (allResults.size() + 1) / 2 : 5;
+        // Show all if < 5 total; cap at 5 if >= 5
+        int limit = allResults.size() < 10 ? (allResults.size() + 1) / 2 : Math.min(5, allResults.size());
+
         return allResults.stream()
                 .limit(limit)
+                .sorted((a, b) -> {
+                    // Primary: by rating (descending - already sorted)
+                    // Secondary: by ID descending (to get newest ones)
+                    // But return in reverse order for display (oldest first in ties)
+                    double ratingA = ((Number) a[1]).doubleValue();
+                    double ratingB = ((Number) b[1]).doubleValue();
+                    if (Math.abs(ratingA - ratingB) > 0.001) {
+                        return Double.compare(ratingB, ratingA); // descending
+                    }
+                    // Within same rating: keep newest (higher ID) last for display
+                    return Integer.compare((Integer) a[0], (Integer) b[0]);
+                })
                 .map(row -> {
                     Map<Integer, Double> map = new java.util.HashMap<>();
                     map.put((Integer) row[0], ((Number) row[1]).doubleValue());
@@ -197,27 +211,56 @@ public class UserService {
     }
 
     public List<Map<Integer, Double>> getLeastRatedAnime() {
-        List<Object[]> allResults = userRatingRepository.findTopRatedAnime();
-        if (allResults.isEmpty()) {
+        List<Object[]> allTopRated = userRatingRepository.findTopRatedAnime();
+        if (allTopRated.isEmpty()) {
             return List.of();
         }
 
-        // Calculate how many to show in least rated
-        int totalLimit = allResults.size() < 10 ? (allResults.size() + 1) / 2 : 5;
+        // Calculate how many to show in top/least rated
+        int topRatedLimit = allTopRated.size() < 10 ? (allTopRated.size() + 1) / 2 : 5;
 
         // Get top rated IDs to exclude
-        List<Integer> topRatedIds = allResults.stream()
-                .limit(totalLimit)
+        List<Integer> topRatedIds = allTopRated.stream()
+                .limit(topRatedLimit)
                 .map(row -> (Integer) row[0])
                 .collect(java.util.stream.Collectors.toList());
 
         // Get least rated, excluding top rated
         List<Object[]> leastResults = userRatingRepository.findLeastRatedAnimeExcluding(topRatedIds);
+
+        // Show all least rated if < 5; otherwise cap at topRatedLimit
+        int leastRatedLimit = leastResults.size() < 5 ? leastResults.size() : topRatedLimit;
+
         return leastResults.stream()
-                .limit(totalLimit)
+                .limit(leastRatedLimit)
+                .sorted((a, b) -> {
+                    // Primary: by rating (ascending - already sorted)
+                    // Secondary: by ID descending (to get newest ones)
+                    // But return in reverse order for display (oldest first in ties)
+                    double ratingA = ((Number) a[1]).doubleValue();
+                    double ratingB = ((Number) b[1]).doubleValue();
+                    if (Math.abs(ratingA - ratingB) > 0.001) {
+                        return Double.compare(ratingA, ratingB); // ascending
+                    }
+                    // Within same rating: keep newest (higher ID) last for display
+                    return Integer.compare((Integer) a[0], (Integer) b[0]);
+                })
                 .map(row -> {
                     Map<Integer, Double> map = new java.util.HashMap<>();
                     map.put((Integer) row[0], ((Number) row[1]).doubleValue());
+                    return map;
+                })
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    public List<Map<String, Object>> getAnimeWithMultipleRatings() {
+        List<Object[]> results = userRatingRepository.findAnimeWithMultipleRatings();
+        return results.stream()
+                .map(row -> {
+                    Map<String, Object> map = new java.util.HashMap<>();
+                    map.put("animeId", (Integer) row[0]);
+                    map.put("avgRating", ((Number) row[1]).doubleValue());
+                    map.put("userCount", ((Number) row[2]).longValue());
                     return map;
                 })
                 .collect(java.util.stream.Collectors.toList());

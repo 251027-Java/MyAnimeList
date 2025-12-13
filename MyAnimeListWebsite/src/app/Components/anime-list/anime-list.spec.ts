@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AnimeList } from './anime-list';
 
 describe('AnimeList', () => {
@@ -8,13 +8,13 @@ describe('AnimeList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnimeList]
+      imports: [AnimeList, HttpClientTestingModule]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(AnimeList);
     component = fixture.componentInstance;
-    await fixture.whenStable();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

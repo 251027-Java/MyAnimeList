@@ -125,4 +125,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getLeastRatedAnime());
     }
 
+    @GetMapping("/stats/anime-with-multiple-ratings")
+    ResponseEntity<?> getAnimeWithMultipleRatings() {
+        return ResponseEntity.ok(userService.getAnimeWithMultipleRatings());
+    }
+
 }

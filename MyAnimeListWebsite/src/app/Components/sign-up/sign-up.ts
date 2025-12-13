@@ -33,7 +33,11 @@ export class SignUpComponent {
           this.router.navigate(['/login']);
         },
         error => {
-          alert('Error creating user');
+          if (error.status === 409) {
+            alert('You already have an account');
+          } else {
+            alert('Error creating user');
+          }
         }
       );
   }

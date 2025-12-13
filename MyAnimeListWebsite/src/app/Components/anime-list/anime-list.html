@@ -11,6 +11,7 @@
         <div class="anime-details">
           <p><strong>Episodes:</strong> {{ anime.totalEpisodes }}</p>
           <p><strong>Status:</strong> {{ anime.status }}</p>
+          <p *ngIf="getAverageRating(anime.id)"><strong>Average Rating:</strong> {{ formatRating(getAverageRating(anime.id)!) }}/10</p>
           <div class="user-actions" (click)="$event.stopPropagation()">
             <p *ngIf="isWatched(anime.id)" style="color: green; font-weight: bold;">✓ Watched</p>
             <button class="action-btn" *ngIf="!isWatched(anime.id) && !isInWatchlist(anime.id)" (click)="addToWatchlist(anime.id)">Add to Watchlist</button>

@@ -22,6 +22,7 @@ export class AnimeList implements OnInit, OnDestroy {
   addedToWatchlist = signal<Set<number>>(new Set());
   userWatchlist = signal<Set<number>>(new Set());
   userWatchedAnime = signal<Set<number>>(new Set());
+  animeAverageRatings = signal<Map<number, number>>(new Map());
   private searchSubscription?: Subscription;
 
   protected readonly title = signal('MyAnimeListWebsite');
@@ -63,6 +64,18 @@ export class AnimeList implements OnInit, OnDestroy {
         const allAnime = filteredData.slice(0, 216);
         this.animeList.set(allAnime);
         this.filteredAnimeList.set(allAnime);
+
+        // Load average ratings for anime with 2+ user ratings
+        this.userService.getAnimeWithMultipleRatings().subscribe({
+          next: (ratedAnime) => {
+            const ratingMap = new Map<number, number>();
+            ratedAnime.forEach((item: any) => {
+              ratingMap.set(item.animeId, item.avgRating);
+            });
+            this.animeAverageRatings.set(ratingMap);
+          },
+          error: (err: any) => console.error('Error fetching anime ratings:', err),
+        });
       },
       error: (err: any) => console.error('Error fetching anime:', err),
     });
@@ -143,6 +156,18 @@ export class AnimeList implements OnInit, OnDestroy {
 
   isWatched(animeId: number): boolean {
     return this.userWatchedAnime().has(animeId);
+  }
+
+  formatRating(value: number): string {
+    const truncated = Math.floor(value * 100) / 100;
+    let s = truncated.toFixed(2);
+    s = s.replace(/(\.\d*[1-9])0$/, '$1');
+    s = s.replace(/\.00$/, '');
+    return s;
+  }
+
+  getAverageRating(animeId: number): number | null {
+    return this.animeAverageRatings().get(animeId) || null;
   }
 
 }

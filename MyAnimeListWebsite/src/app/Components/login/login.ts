@@ -27,7 +27,11 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error("Login failed", err);
-        alert("Invalid username or password");
+        if (err.status === 401) {
+          alert("Invalid username or password");
+        } else {
+          alert("Login failed. Please try again.");
+        }
       }
     });
   }
