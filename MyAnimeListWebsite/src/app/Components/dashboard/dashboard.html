@@ -35,10 +35,10 @@
                     </div>
                   <div class="rating-control" *ngIf="!hasRated(anime.id)">
                     <label>Rating (0-10):</label>
-                    <input type="number" min="0" max="10" #ratingInput>
+                    <input type="number" min="0" max="10" step="0.01" #ratingInput>
                     <button class="action-btn" (click)="setRating(anime.id, ratingInput)">Set Rating</button>
                   </div>
-                  <p *ngIf="hasRated(anime.id)" style="color: blue; font-weight: bold;">Rating: {{ getRating(anime.id) }}/10</p>
+                  <p *ngIf="hasRated(anime.id)" style="color: blue; font-weight: bold;">Rating: {{ formatRating(getRating(anime.id)) }}/10</p>
                 </div>
             </div>
         </div>

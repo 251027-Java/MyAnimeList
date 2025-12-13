@@ -3,7 +3,7 @@ package com.animeapp.model.requests;
 public class UserRatingRequest {
     private Integer userId;
     private Integer animeId;
-    private Integer rating;
+    private Float rating;
 
     public Integer getUserId() {
         return userId;
@@ -21,11 +21,11 @@ public class UserRatingRequest {
         this.animeId = animeId;
     }
 
-    public Integer getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 }

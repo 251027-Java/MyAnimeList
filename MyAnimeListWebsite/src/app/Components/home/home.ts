@@ -18,6 +18,16 @@ export class Home implements OnInit {
     private animeService: AnimeService
   ) {}
 
+  formatRating(value: number): string {
+    const truncated = Math.floor(value * 100) / 100;
+    let s = truncated.toFixed(2);
+    // Remove a single trailing zero after decimal if present (e.g., 7.70 -> 7.7)
+    s = s.replace(/(\.[\d]*[1-9])0$/, '$1');
+    // Remove .00 entirely (e.g., 8.00 -> 8)
+    s = s.replace(/\.00$/, '');
+    return s;
+  }
+
   ngOnInit() {
     this.animeService.getAllAnime().subscribe({
       next: (data) => {
@@ -47,7 +57,7 @@ export class Home implements OnInit {
                 // Filter out ratings below 6
                 if (rating < 6) return null;
                 const anime = data.find((a: Anime) => a.id === parseInt(animeId));
-                return anime ? { title: anime.title, rating: parseFloat(rating.toFixed(1)) } : null;
+                return anime ? { title: anime.title, rating } : null;
               })
               .filter((item: {title: string, rating: number} | null) => item !== null) as Array<{title: string, rating: number}>;
             this.topRatedAnimeList.set(topRatedList);

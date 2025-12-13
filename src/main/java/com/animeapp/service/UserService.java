@@ -74,7 +74,7 @@ public class UserService {
     }
 
     // Rating
-    public void setRating(Integer userId, Integer animeId, Integer rating) {
+    public void setRating(Integer userId, Integer animeId, Float rating) {
         Optional<UserRating> existingRating = userRatingRepository.findByUserIdAndAnimeId(userId, animeId);
         if (existingRating.isPresent()) {
             UserRating r = existingRating.get();

@@ -13,17 +13,14 @@
     </div>
   </div>
 
-  <div class="stats-section">
+  <div class="stats-section" *ngIf="topRatedAnimeList().length > 0">
     <h2>Top Average Rated Animes</h2>
-    <div class="top-rated-list" *ngIf="topRatedAnimeList().length > 0; else noRatings">
+    <div class="top-rated-list">
       <div *ngFor="let anime of topRatedAnimeList(); let i = index" class="rated-item">
         <span class="rating-number">{{ i + 1 }}.</span>
         <span class="rating-title">{{ anime.title }}</span>
-        <span class="rating-score">({{ anime.rating }}/10)</span>
+        <span class="rating-score">({{ formatRating(anime.rating) }}/10)</span>
       </div>
     </div>
-    <ng-template #noRatings>
-      <p class="most-watched">No rated animes with rating 6 or above</p>
-    </ng-template>
   </div>
 </div>
