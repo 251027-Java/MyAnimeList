@@ -1,6 +1,12 @@
-<h2>{{title()}}</h2>
+<h2>{{ title() }}</h2>
+
+<p class="search-limit-banner" *ngIf="searchActive()">
+  Showing {{ displayedAnimeList().length }} of {{ filteredAnimeList().length }} matches (limit {{ searchResultLimit }}
+  results)
+</p>
+
 <div class="anime-grid">
-  <div class="anime-card" *ngFor="let anime of filteredAnimeList()" (click)="toggleFlip(anime.id)"
+  <div class="anime-card" *ngFor="let anime of displayedAnimeList()" (click)="toggleFlip(anime.id)"
     [class.flipped]="isFlipped(anime.id)">
     <div class="anime-card-inner">
       <div class="anime-card-front">
@@ -13,11 +19,19 @@
           <p><strong>Status:</strong> {{ anime.status }}</p>
           <div class="user-actions" (click)="$event.stopPropagation()">
             <p *ngIf="isWatched(anime.id)" style="color: green; font-weight: bold;">✓ Watched</p>
-            <button class="action-btn" *ngIf="!isWatched(anime.id) && !isInWatchlist(anime.id)" (click)="addToWatchlist(anime.id)">Add to Watchlist</button>
-            <p *ngIf="!isWatched(anime.id) && isInWatchlist(anime.id)" style="color: green; font-weight: bold;">✓ In Watchlist</p>
+            <button class="action-btn" *ngIf="!isWatched(anime.id) && !isInWatchlist(anime.id)"
+              (click)="addToWatchlist(anime.id)">Add to Watchlist</button>
+            <p *ngIf="!isWatched(anime.id) && isInWatchlist(anime.id)" style="color: green; font-weight: bold;">✓ In
+              Watchlist</p>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="pagination" *ngIf="!searchActive() && totalPages() > 1">
+  <button (click)="goToPreviousPage()" [disabled]="currentPage() === 1">&#8592;</button>
+  <span>Page {{ currentPage() }} of {{ totalPages() }}</span>
+  <button (click)="goToNextPage()" [disabled]="currentPage() === totalPages()">&#8594;</button>
 </div>
