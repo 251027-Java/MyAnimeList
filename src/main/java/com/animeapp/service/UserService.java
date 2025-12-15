@@ -116,10 +116,10 @@ public class UserService {
         // Filter only anime with 2+ users (exclude 1-user anime)
         List<Object[]> twoOrMoreUsers = allResults.stream()
                 .filter(row -> (Long) row[1] >= 2)
-                .collect(java.util.stream.Collectors.toList());
+                .toList();
 
-        // Calculate limit: if total < 10, show half; otherwise show up to 5
-        int limit = twoOrMoreUsers.size() < 10 ? (twoOrMoreUsers.size() + 1) / 2 : 5;
+        // Show all if < 10 total; cap at 10 if >= 10
+        int limit = Math.min(10, twoOrMoreUsers.size());
         return twoOrMoreUsers.stream()
                 .limit(limit)
                 .map(row -> {
@@ -132,9 +132,8 @@ public class UserService {
 
     public List<Map<Integer, Double>> getTopRatedAnime() {
         List<Object[]> allResults = userRatingRepository.findTopRatedAnime();
-        // Calculate limit: if total < 10, show half; otherwise show up to 5
-        // Show all if < 5 total; cap at 5 if >= 5
-        int limit = allResults.size() < 10 ? (allResults.size() + 1) / 2 : Math.min(5, allResults.size());
+        // Show all if < 10 total; cap at 10 if >= 10
+        int limit = Math.min(allResults.size(), 10);
 
         return allResults.stream()
                 .limit(limit)
@@ -167,11 +166,11 @@ public class UserService {
         // Separate 1-user and 2+ user anime
         List<Object[]> oneUserAnime = allResults.stream()
                 .filter(row -> (Long) row[1] == 1)
-                .collect(java.util.stream.Collectors.toList());
+                .toList();
 
         List<Object[]> twoOrMoreUsers = allResults.stream()
                 .filter(row -> (Long) row[1] >= 2)
-                .collect(java.util.stream.Collectors.toList());
+                .toList();
 
         // Calculate limits for most/least watched
         int mostWatchedLimit = twoOrMoreUsers.size() < 10 ? (twoOrMoreUsers.size() + 1) / 2 : 5;
@@ -183,7 +182,7 @@ public class UserService {
                 .collect(java.util.stream.Collectors.toList());
 
         // Calculate least watched limit
-        int leastWatchedLimit = twoOrMoreUsers.size() < 10 ? (twoOrMoreUsers.size() + 1) / 2 : 5;
+        int leastWatchedLimit = Math.min(10, twoOrMoreUsers.size());
 
         // Get bottom entries from 2+ users (excluding most watched)
         List<Object[]> leastResults = new java.util.ArrayList<>();
@@ -217,7 +216,7 @@ public class UserService {
         }
 
         // Calculate how many to show in top/least rated
-        int topRatedLimit = allTopRated.size() < 10 ? (allTopRated.size() + 1) / 2 : 5;
+        int topRatedLimit = Math.min(10, allTopRated.size());
 
         // Get top rated IDs to exclude
         List<Integer> topRatedIds = allTopRated.stream()
@@ -228,8 +227,8 @@ public class UserService {
         // Get least rated, excluding top rated
         List<Object[]> leastResults = userRatingRepository.findLeastRatedAnimeExcluding(topRatedIds);
 
-        // Show all least rated if < 5; otherwise cap at topRatedLimit
-        int leastRatedLimit = leastResults.size() < 5 ? leastResults.size() : topRatedLimit;
+        // Show all least rated if < 10; otherwise cap at topRatedLimit
+        int leastRatedLimit = Math.min(leastResults.size(), 10);
 
         return leastResults.stream()
                 .limit(leastRatedLimit)
