@@ -57,7 +57,7 @@ public class PopulateAnimeTable {
                     }
                 }
 
-                pstmt.setDouble(4, Math.round(((Math.random() * 4) + 1) * 100.0) / 100.0);
+                pstmt.setDouble(4, Math.round(((Math.random() * 9) + 1) * 100.0) / 100.0);
 
                 pstmt.executeUpdate();
             }
