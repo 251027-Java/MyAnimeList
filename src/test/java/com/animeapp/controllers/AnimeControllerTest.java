@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -28,7 +30,7 @@ class AnimeControllerTest {
 
     @Test
     void getAnimeByTitleReturnsOkWhenFound() {
-        Anime anime = new Anime();
+        List<Anime> anime = List.of(new Anime());
         when(animeService.getAnimeByTitle("Naruto")).thenReturn(anime);
 
         ResponseEntity<?> response = animeController.getAnimeByTitle("Naruto");
@@ -40,7 +42,7 @@ class AnimeControllerTest {
 
     @Test
     void getAnimeByTitleReturns404WhenMissing() {
-        when(animeService.getAnimeByTitle("Bleach")).thenReturn(null);
+        when(animeService.getAnimeByTitle("Bleach")).thenReturn(List.of());
 
         ResponseEntity<?> response = animeController.getAnimeByTitle("Bleach");
 
@@ -74,7 +76,7 @@ class AnimeControllerTest {
     void getAnimeByTitleReturnsAnime() {
         Anime anime = new Anime();
         anime.setTitle("One Piece");
-        when(animeService.getAnimeByTitle("One Piece")).thenReturn(anime);
+        when(animeService.getAnimeByTitle("One Piece")).thenReturn(List.of(anime));
 
         ResponseEntity<?> response = animeController.getAnimeByTitle("One Piece");
 
@@ -88,7 +90,7 @@ class AnimeControllerTest {
         request.setUserId(1);
         request.setAnimeId(5);
         request.setWatched(true);
-        
+
         com.animeapp.model.UserAnimeWatched watched = new com.animeapp.model.UserAnimeWatched(1, 5, true);
         when(animeService.updateAnimeWatchStatus(request)).thenReturn(watched);
 

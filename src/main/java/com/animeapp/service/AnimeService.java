@@ -29,8 +29,8 @@ public class AnimeService {
         return animeRepository.findAll();
     }
 
-    public Anime getAnimeByTitle(String title) {
-        return animeRepository.findByTitle(title);
+    public List<Anime> getAnimeByTitle(String title) {
+        return animeRepository.findByTitleContains(title);
     }
 
     public UserAnimeWatched updateAnimeWatchStatus(UserAnimeWatchedRequest request) {

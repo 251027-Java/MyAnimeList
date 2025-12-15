@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -22,9 +23,9 @@ public class AnimeController {
 
     @GetMapping()
     public ResponseEntity<?> getAnimeByTitle(@RequestParam("title") String title) {
-        Anime anime = animeService.getAnimeByTitle(title);
+        List<Anime> anime = animeService.getAnimeByTitle(title);
 
-        if (Objects.isNull(anime)) {
+        if (Objects.isNull(anime) || anime.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(anime);
