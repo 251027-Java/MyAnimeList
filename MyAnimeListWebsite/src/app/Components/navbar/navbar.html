@@ -21,7 +21,12 @@
           (input)="onSearch()"
         />
       </div>
-      <button class="logout-btn" (click)="logout()">Log Out</button>
     </div>
+
+    <div class="navbar-nav">
+      <button *ngIf="authService.isLoggedIn()" class="logout-btn" (click)="logout()">Log Out</button>
+    </div>
+
+
   </div>
 </nav>
