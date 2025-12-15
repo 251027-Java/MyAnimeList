@@ -1,19 +1,12 @@
 #Instructions to Run the Full Stack Application
-
--Have a Docker Container running PostgreSQL connection, both on port 5432
--- docker run --name mypostgres -e POSTGRES_PASSWORD=PASSWORD -p 5432:5432 -d postgres
--Navigate to loadDbScript
--Update String csvFile in beginning in PopulateAnimeTable.java file to the correct password for your Postgres connection
--- If you forgot your password, check it in GitBash with docker inspect mypostgres | grep POSTGRES\_PASSWORD
-
--In src/main/resources/sql/myanimelist.sql where you have the PostgreSQL connection in VS code
-run the first line to create the database. Then right click on query in the public schema and run the remaining commands.
-
--Run the PopulateAnimeTable.java to see your populated anime table with the CSV data.
-
--Make sure src/main/resources/application.properties has the correct port (5432) and the correct login information.
-
--Run the MyAnimeListApplication.java in src/main/java/com/animeapp/MyAnimeListApplication.java
-
--Finally, run the MyAnimeList/MyAnimeListWebsite in your preferred IDE with ng serve -o in the terminal.
---Make sure you have Node.js installed (https://nodejs.org/) and run npm install -g @angular/cli and npm install if you don't have Node.js.
+    -Have a Docker Container running PostgreSQL connection, both on port 5432
+     -docker run --name mypostgres -e POSTGRES_PASSWORD=PASSWORD -p 5432:5432 -d postgres
+    -Navigate to loadDbScript
+    -Update String csvFile in beginning in PopulateAnimeTable.java file to the correct password for your Postgres connection
+     -If you forgot your password, check it in GitBash with docker inspect mypostgres | grep POSTGRES\_PASSWORD
+    -In src/main/resources/sql/myanimelist.sql where you have the PostgreSQL connection in VS code run the first line to create the database. Then right click on query in the public schema and run the remaining commands.
+    -Run the PopulateAnimeTable.java to see your populated anime table with the CSV data.
+    -Make sure src/main/resources/application.properties has the correct port (5432) and the correct login information.
+    -Run the MyAnimeListApplication.java in src/main/java/com/animeapp/MyAnimeListApplication.java
+    -Finally, run the MyAnimeList/MyAnimeListWebsite in your preferred IDE with ng serve -o in the terminal.
+     -Make sure you have Node.js installed (https://nodejs.org/) and run npm install -g @angular/cli and npm install if you don't have Node.js.
