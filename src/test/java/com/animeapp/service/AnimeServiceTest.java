@@ -46,13 +46,13 @@ class AnimeServiceTest {
 
     @Test
     void getAnimeByTitleReturnsRepositoryResult() {
-        Anime anime = new Anime();
-        when(animeRepository.findByTitle("Naruto")).thenReturn(anime);
+        List<Anime> anime = List.of(new Anime());
+        when(animeRepository.findByTitleContains("Naruto")).thenReturn(anime);
 
-        Anime result = animeService.getAnimeByTitle("Naruto");
+        List<Anime> result = animeService.getAnimeByTitle("Naruto");
 
         assertSame(anime, result);
-        verify(animeRepository).findByTitle("Naruto");
+        verify(animeRepository).findByTitleContains("Naruto");
     }
 
     @Test
@@ -113,7 +113,7 @@ class AnimeServiceTest {
         anime1.setTitle("Attack on Titan");
         Anime anime2 = new Anime();
         anime2.setTitle("Death Note");
-        
+
         when(animeRepository.findAll()).thenReturn(List.of(anime1, anime2));
 
         List<Anime> result = animeService.getAllAnime();
@@ -125,23 +125,23 @@ class AnimeServiceTest {
 
     @Test
     void getAnimeByTitleReturnsNullWhenNotFound() {
-        when(animeRepository.findByTitle("NonExistent")).thenReturn(null);
+        when(animeRepository.findByTitleContains("NonExistent")).thenReturn(null);
 
-        Anime result = animeService.getAnimeByTitle("NonExistent");
+        List<Anime> result = animeService.getAnimeByTitle("NonExistent");
 
         assertNull(result);
-        verify(animeRepository).findByTitle("NonExistent");
+        verify(animeRepository).findByTitleContains("NonExistent");
     }
 
     @Test
     void updateAnimeWatchStatusHandlesMultipleUpdates() {
         UserAnimeWatchedRequest request1 = buildRequest(1, 10, true);
         UserAnimeWatchedRequest request2 = buildRequest(1, 10, false);
-        
+
         UserAnimeWatched watched = new UserAnimeWatched(1, 10, true);
         when(userAnimeWatchedRepository.findByUserIdAndAnimeId(1, 10))
-            .thenReturn(java.util.Optional.empty())
-            .thenReturn(java.util.Optional.of(watched));
+                .thenReturn(java.util.Optional.empty())
+                .thenReturn(java.util.Optional.of(watched));
         when(userAnimeWatchedRepository.save(any())).thenReturn(watched);
 
         animeService.updateAnimeWatchStatus(request1);

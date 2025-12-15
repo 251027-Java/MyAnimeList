@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface AnimeRepository extends JpaRepository<Anime, Integer> {
-    Anime findByTitle(String title);
+    List<Anime> findByTitleContains(String title);
 }
