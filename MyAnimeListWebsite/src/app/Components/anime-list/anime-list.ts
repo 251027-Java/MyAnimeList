@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { AnimeService, Anime } from '../../Service/anime-service';
 import { UserService } from '../../Service/user.service';
@@ -17,12 +17,30 @@ import { Subscription } from 'rxjs';
 export class AnimeList implements OnInit, OnDestroy {
   animeList = signal<Anime[]>([]);
   filteredAnimeList = signal<Anime[]>([]);
-  searchQuery = signal<string>('');
   flippedCards = signal<Set<number>>(new Set());
   addedToWatchlist = signal<Set<number>>(new Set());
   userWatchlist = signal<Set<number>>(new Set());
   userWatchedAnime = signal<Set<number>>(new Set());
-  animeAverageRatings = signal<Map<number, number>>(new Map());
+  readonly searchResultLimit = 100;
+  private readonly pageSize = 100;
+  currentPage = signal(1);
+  searchActive = signal(false);
+  displayedAnimeList = computed(() => {
+    const list = this.filteredAnimeList();
+    if (this.searchActive()) {
+      return list.slice(0, this.searchResultLimit);
+    }
+    const startIndex = (this.currentPage() - 1) * this.pageSize;
+    return list.slice(startIndex, startIndex + this.pageSize);
+  });
+  totalPages = computed(() => {
+    if (this.searchActive()) {
+      return 1;
+    }
+    const totalItems = this.filteredAnimeList().length;
+    return totalItems > 0 ? Math.ceil(totalItems / this.pageSize) : 1;
+  });
+  pageNumbers = computed(() => Array.from({ length: this.totalPages() }, (_, idx) => idx + 1));
   private searchSubscription?: Subscription;
 
   protected readonly title = signal('MyAnimeListWebsite');
@@ -31,7 +49,7 @@ export class AnimeList implements OnInit, OnDestroy {
     private userService: UserService,
     private authService: AuthService,
     private searchService: SearchService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Load user's watchlist and watched anime
@@ -58,24 +76,13 @@ export class AnimeList implements OnInit, OnDestroy {
     this.animeService.getAllAnime().subscribe({
       next: (data) => {
         const filteredData = data
-          .filter(a => a.totalEpisodes > 0 && a.title !== '◯')
+          .filter(a => a.totalEpisodes > 0)
           .sort((a, b) => a.title.localeCompare(b.title));
 
-        const allAnime = filteredData.slice(0, 216);
-        this.animeList.set(allAnime);
-        this.filteredAnimeList.set(allAnime);
-
-        // Load average ratings for anime with 2+ user ratings
-        this.userService.getAnimeWithMultipleRatings().subscribe({
-          next: (ratedAnime) => {
-            const ratingMap = new Map<number, number>();
-            ratedAnime.forEach((item: any) => {
-              ratingMap.set(item.animeId, item.avgRating);
-            });
-            this.animeAverageRatings.set(ratingMap);
-          },
-          error: (err: any) => console.error('Error fetching anime ratings:', err),
-        });
+        this.animeList.set(filteredData);
+        this.filteredAnimeList.set(filteredData);
+        this.currentPage.set(1);
+        this.searchActive.set(false);
       },
       error: (err: any) => console.error('Error fetching anime:', err),
     });
@@ -88,19 +95,40 @@ export class AnimeList implements OnInit, OnDestroy {
 
   private filterAnimeList(searchQuery: string) {
     const query = searchQuery.toLowerCase().trim();
-    this.searchQuery.set(query);
     if (query === '') {
       this.filteredAnimeList.set(this.animeList());
+      this.searchActive.set(false);
     } else {
       const filtered = this.animeList().filter(anime =>
-        anime.title.toLowerCase().includes(query)
+        anime.title.toLowerCase().includes(query) ||
+        anime.id.toString().includes(query)
       );
       this.filteredAnimeList.set(filtered);
+      this.searchActive.set(true);
     }
+    this.currentPage.set(1);
   }
 
   ngOnDestroy() {
     this.searchSubscription?.unsubscribe();
+  }
+
+  goToPreviousPage() {
+    this.goToPage(this.currentPage() - 1);
+  }
+
+  goToNextPage() {
+    this.goToPage(this.currentPage() + 1);
+  }
+
+  goToPage(page: number) {
+    if (this.searchActive()) {
+      return;
+    }
+    const total = this.totalPages();
+    if (page >= 1 && page <= total) {
+      this.currentPage.set(page);
+    }
   }
 
   toggleFlip(id: number) {
@@ -121,7 +149,7 @@ export class AnimeList implements OnInit, OnDestroy {
 
   addToWatchlist(animeId: number) {
     const userId = this.authService.getUserId();
-    
+
     // Check if anime is already in watchlist
     if (this.userWatchlist().has(animeId)) {
       alert('This anime is already in your watchlist!');
@@ -156,18 +184,6 @@ export class AnimeList implements OnInit, OnDestroy {
 
   isWatched(animeId: number): boolean {
     return this.userWatchedAnime().has(animeId);
-  }
-
-  formatRating(value: number): string {
-    const truncated = Math.floor(value * 100) / 100;
-    let s = truncated.toFixed(2);
-    s = s.replace(/(\.\d*[1-9])0$/, '$1');
-    s = s.replace(/\.00$/, '');
-    return s;
-  }
-
-  getAverageRating(animeId: number): number | null {
-    return this.animeAverageRatings().get(animeId) || null;
   }
 
 }

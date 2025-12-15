@@ -33,6 +33,33 @@
     justify-content: center;
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 30px auto 0;
+}
+
+.pagination button {
+    border: none;
+    background: #007bff;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination button[disabled] {
+    background: #a0aec0;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-weight: 600;
+    color: #333;
+}
+
 .anime-card {
     width: 200px;
     height: 200px;
