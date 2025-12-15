@@ -12,13 +12,13 @@ import java.util.Arrays;
 public class PopulateAnimeTable {
 
     public static void main(String[] args) {
-        String csvFile = "src/main/java/AnimeList.csv"; // path to your CSV file
+        String csvFile = "/Users/fahadnawaz/Documents/Revature/P0/loadDbScript/src/main/java/AnimeList.csv"; // path to your CSV file
 
-        String url = "jdbc:postgresql://localhost:5433/postgres";
+        String url = "jdbc:postgresql://localhost:5432/myanimelist";
         String user = "postgres";
-        String password = "xaR501%=";
+        String password = "postgres";
 
-        String insertSQL = "INSERT INTO myanimelist.anime (title, total_episodes, status) VALUES (?, ?, ?)";
+        String insertSQL = "INSERT INTO myanimelist.anime (title, total_episodes, status, avg_rating) VALUES (?, ?, ?, ?)";
 
         try (
                 CSVReader reader = new CSVReader(new FileReader(csvFile));
@@ -56,6 +56,8 @@ public class PopulateAnimeTable {
                         pstmt.setString(3, Status.ONGOING.name());
                     }
                 }
+
+                pstmt.setDouble(4, Math.round(((Math.random() * 4) + 1) * 100.0) / 100.0);
 
                 pstmt.executeUpdate();
             }
