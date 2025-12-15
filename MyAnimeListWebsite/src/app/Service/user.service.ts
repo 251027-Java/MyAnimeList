@@ -74,4 +74,16 @@ export class UserService {
     getTopRatedAnime(): Observable<any[]> {
         return this.http.get<any[]>(`${this.apiUrl}/stats/top-rated`);
     }
+
+    getLeastWatchedAnime(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/stats/least-watched`);
+    }
+
+    getLeastRatedAnime(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/stats/least-rated`);
+    }
+
+    getAnimeWithMultipleRatings(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/stats/anime-with-multiple-ratings`);
+    }
 }

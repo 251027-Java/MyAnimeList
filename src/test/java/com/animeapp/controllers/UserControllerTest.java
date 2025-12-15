@@ -28,7 +28,7 @@ class UserControllerTest {
     }
 
     @Test
-    void registerUserReturnsConflictWhenUsernameExists() throws UserException{
+    void registerUserReturnsConflictWhenUsernameExists() throws UserException {
         User request = new User("existing", "password123");
         when(userService.doesUsernameExist("existing")).thenReturn(true);
 
@@ -94,5 +94,143 @@ class UserControllerTest {
 
         assertEquals(200, response.getStatusCode().value());
         assertSame(request, response.getBody());
+    }
+
+    @Test
+    void addToWatchlistReturnsOk() {
+        ResponseEntity<?> response = userController.addToWatchlist(
+                new com.animeapp.model.requests.UserWatchlistRequest() {
+                    {
+                        setUserId(1);
+                        setAnimeId(10);
+                    }
+                });
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).addToWatchlist(1, 10);
+    }
+
+    @Test
+    void removeFromWatchlistReturnsOk() {
+        ResponseEntity<?> response = userController.removeFromWatchlist(
+                new com.animeapp.model.requests.UserWatchlistRequest() {
+                    {
+                        setUserId(1);
+                        setAnimeId(10);
+                    }
+                });
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).removeFromWatchlist(1, 10);
+    }
+
+    @Test
+    void getWatchlistReturnsOk() {
+        when(userService.getWatchlist(1)).thenReturn(java.util.List.of());
+
+        ResponseEntity<?> response = userController.getWatchlist(1);
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).getWatchlist(1);
+    }
+
+    @Test
+    void setRatingReturnsOk() {
+        ResponseEntity<?> response = userController.setRating(
+                new com.animeapp.model.requests.UserRatingRequest() {
+                    {
+                        setUserId(1);
+                        setAnimeId(10);
+                        setRating(8.5f);
+                    }
+                });
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).setRating(1, 10, 8.5f);
+    }
+
+    @Test
+    void getRatingReturnsOk() {
+        when(userService.getRating(1, 10)).thenReturn(java.util.Optional.empty());
+
+        ResponseEntity<?> response = userController.getRating(1, 10);
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).getRating(1, 10);
+    }
+
+    @Test
+    void getMostWatchedAnimeReturnsOk() {
+        when(userService.getMostWatchedAnimeWithCount()).thenReturn(java.util.List.of());
+
+        ResponseEntity<?> response = userController.getMostWatchedAnime();
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).getMostWatchedAnimeWithCount();
+    }
+
+    @Test
+    void getTopRatedAnimeReturnsOk() {
+        when(userService.getTopRatedAnime()).thenReturn(java.util.List.of());
+
+        ResponseEntity<?> response = userController.getTopRatedAnime();
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).getTopRatedAnime();
+    }
+
+    @Test
+    void getLeastWatchedAnimeReturnsOk() {
+        when(userService.getLeastWatchedAnime()).thenReturn(java.util.List.of());
+
+        ResponseEntity<?> response = userController.getLeastWatchedAnime();
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).getLeastWatchedAnime();
+    }
+
+    @Test
+    void getLeastRatedAnimeReturnsOk() {
+        when(userService.getLeastRatedAnime()).thenReturn(java.util.List.of());
+
+        ResponseEntity<?> response = userController.getLeastRatedAnime();
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).getLeastRatedAnime();
+    }
+
+    @Test
+    void getAnimeWithMultipleRatingsReturnsOk() {
+        when(userService.getAnimeWithMultipleRatings()).thenReturn(java.util.List.of());
+
+        ResponseEntity<?> response = userController.getAnimeWithMultipleRatings();
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).getAnimeWithMultipleRatings();
+    }
+
+    @Test
+    void setWatchedReturnsOk() {
+        ResponseEntity<?> response = userController.setWatched(
+                new com.animeapp.model.requests.UserAnimeWatchedRequest() {
+                    {
+                        setUserId(1);
+                        setAnimeId(10);
+                        setWatched(true);
+                    }
+                });
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).setWatched(1, 10, true);
+    }
+
+    @Test
+    void getWatchedAnimeReturnsOk() {
+        when(userService.getWatchedAnime(1)).thenReturn(java.util.List.of());
+
+        ResponseEntity<?> response = userController.getWatchedAnime(1);
+
+        assertEquals(200, response.getStatusCode().value());
+        verify(userService).getWatchedAnime(1);
     }
 }

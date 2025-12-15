@@ -10,7 +10,13 @@ export const authGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  // Redirect to login page if not authenticated
-  router.navigate(['']);
+  // Redirect based on login history
+  if (authService.hasLoggedInBefore()) {
+    // User logged in before, redirect to login page
+    router.navigate(['/login']);
+  } else {
+    // Brand new user, redirect to signup page
+    router.navigate(['']);
+  }
   return false;
 };
