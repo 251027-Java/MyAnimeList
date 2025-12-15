@@ -12,7 +12,7 @@ describe('Login', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Login);
+    fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
