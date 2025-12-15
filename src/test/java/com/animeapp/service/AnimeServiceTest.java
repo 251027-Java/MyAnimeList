@@ -106,4 +106,48 @@ class AnimeServiceTest {
         request.setWatched(watched);
         return request;
     }
+
+    @Test
+    void getAllAnimeReturnsAllRecords() {
+        Anime anime1 = new Anime();
+        anime1.setTitle("Attack on Titan");
+        Anime anime2 = new Anime();
+        anime2.setTitle("Death Note");
+        
+        when(animeRepository.findAll()).thenReturn(List.of(anime1, anime2));
+
+        List<Anime> result = animeService.getAllAnime();
+
+        assertEquals(2, result.size());
+        assertTrue(result.contains(anime1));
+        assertTrue(result.contains(anime2));
+    }
+
+    @Test
+    void getAnimeByTitleReturnsNullWhenNotFound() {
+        when(animeRepository.findByTitle("NonExistent")).thenReturn(null);
+
+        Anime result = animeService.getAnimeByTitle("NonExistent");
+
+        assertNull(result);
+        verify(animeRepository).findByTitle("NonExistent");
+    }
+
+    @Test
+    void updateAnimeWatchStatusHandlesMultipleUpdates() {
+        UserAnimeWatchedRequest request1 = buildRequest(1, 10, true);
+        UserAnimeWatchedRequest request2 = buildRequest(1, 10, false);
+        
+        UserAnimeWatched watched = new UserAnimeWatched(1, 10, true);
+        when(userAnimeWatchedRepository.findByUserIdAndAnimeId(1, 10))
+            .thenReturn(java.util.Optional.empty())
+            .thenReturn(java.util.Optional.of(watched));
+        when(userAnimeWatchedRepository.save(any())).thenReturn(watched);
+
+        animeService.updateAnimeWatchStatus(request1);
+        UserAnimeWatched result = animeService.updateAnimeWatchStatus(request2);
+
+        assertNotNull(result);
+        assertFalse(result.getWatched());
+    }
 }
