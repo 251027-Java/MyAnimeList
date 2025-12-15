@@ -76,12 +76,13 @@ class AnimeControllerTest {
     void getAnimeByTitleReturnsAnime() {
         Anime anime = new Anime();
         anime.setTitle("One Piece");
-        when(animeService.getAnimeByTitle("One Piece")).thenReturn(List.of(anime));
+        List<Anime> expected = List.of(anime);
+        when(animeService.getAnimeByTitle("One Piece")).thenReturn(expected);
 
         ResponseEntity<?> response = animeController.getAnimeByTitle("One Piece");
 
         assertEquals(200, response.getStatusCode().value());
-        assertEquals(anime, response.getBody());
+        assertSame(expected, response.getBody());
     }
 
     @Test
