@@ -19,10 +19,10 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
-    private UserAnimeWatchlistRepository userAnimeWatchlistRepository;
-    private UserRatingRepository userRatingRepository;
-    private UserAnimeWatchedRepository userAnimeWatchedRepository;
+    private final UserRepository userRepository;
+    private final UserAnimeWatchlistRepository userAnimeWatchlistRepository;
+    private final UserRatingRepository userRatingRepository;
+    private final UserAnimeWatchedRepository userAnimeWatchedRepository;
 
     @Autowired
     public UserService(UserRepository userRepository,
@@ -50,9 +50,7 @@ public class UserService {
         String username = user.getUsername();
         String password = user.getPassword();
 
-        User loggedInUser = userRepository.findByUsernameAndPassword(username, password);
-
-        return loggedInUser;
+        return userRepository.findByUsernameAndPassword(username, password);
     }
 
     // Watchlist
@@ -196,7 +194,7 @@ public class UserService {
         // Fill remaining slots with 1-user anime if needed
         if (leastResults.size() < leastWatchedLimit) {
             int slotsNeeded = leastWatchedLimit - leastResults.size();
-            leastResults.addAll(oneUserAnime.stream().limit(slotsNeeded).collect(java.util.stream.Collectors.toList()));
+            leastResults.addAll(oneUserAnime.stream().limit(slotsNeeded).toList());
         }
 
         return leastResults.stream()
