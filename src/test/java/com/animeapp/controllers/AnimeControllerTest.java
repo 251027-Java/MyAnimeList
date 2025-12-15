@@ -57,4 +57,44 @@ class AnimeControllerTest {
         assertEquals(200, response.getStatusCode().value());
         verify(animeService).updateAnimeWatchStatus(request);
     }
+
+    @Test
+    void getAllAnimeReturnsOk() {
+        java.util.List<Anime> animeList = java.util.List.of(new Anime(), new Anime());
+        when(animeService.getAllAnime()).thenReturn(animeList);
+
+        ResponseEntity<?> response = animeController.getAllAnime();
+
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(animeList, response.getBody());
+        verify(animeService).getAllAnime();
+    }
+
+    @Test
+    void getAnimeByTitleReturnsAnime() {
+        Anime anime = new Anime();
+        anime.setTitle("One Piece");
+        when(animeService.getAnimeByTitle("One Piece")).thenReturn(anime);
+
+        ResponseEntity<?> response = animeController.getAnimeByTitle("One Piece");
+
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(anime, response.getBody());
+    }
+
+    @Test
+    void updateAnimeWatchStatusWithResult() {
+        UserAnimeWatchedRequest request = new UserAnimeWatchedRequest();
+        request.setUserId(1);
+        request.setAnimeId(5);
+        request.setWatched(true);
+        
+        com.animeapp.model.UserAnimeWatched watched = new com.animeapp.model.UserAnimeWatched(1, 5, true);
+        when(animeService.updateAnimeWatchStatus(request)).thenReturn(watched);
+
+        ResponseEntity<?> response = animeController.updateAnimeWatchStatus(request);
+
+        assertEquals(200, response.getStatusCode().value());
+        assertEquals(watched, response.getBody());
+    }
 }

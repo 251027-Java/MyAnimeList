@@ -113,7 +113,7 @@ toggleWatched(animeId: number) {
 
 
   setRating(animeId: number, ratingInput: any) {
-    const rating = +ratingInput.value;
+    const rating = parseFloat(ratingInput.value);
     
     if (rating < 0 || rating > 10) {
       alert('Rating must be between 0 and 10');
@@ -147,6 +147,16 @@ toggleWatched(animeId: number) {
 
   getRating(animeId: number): number {
     return this.ratedAnime().get(animeId) || 0;
+  }
+
+  formatRating(value: number): string {
+    const truncated = Math.floor(value * 100) / 100;
+    let s = truncated.toFixed(2);
+    // Remove a single trailing zero after decimal if present (e.g., 7.70 -> 7.7)
+    s = s.replace(/(\.\d*[1-9])0$/, '$1');
+    // Remove .00 entirely (e.g., 8.00 -> 8)
+    s = s.replace(/\.00$/, '');
+    return s;
   }
 
 }
