@@ -15,7 +15,7 @@ create table myanimelist.anime (
     title VARCHAR(100),
     total_episodes INTEGER,
     status VARCHAR(20),
-    avg_rating DOUBLE PRECISION
+    avg_rating DOUBLE PRECISION,
     image_url Varchar(200)
 );
 
@@ -44,5 +44,5 @@ create table myanimelist.rating(
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id INTEGER NOT NULL REFERENCES myanimelist.users(user_id) ON DELETE CASCADE,
     anime_id INTEGER NOT NULL REFERENCES myanimelist.anime(anime_id) ON DELETE CASCADE,
-    rating FLOAT NOT NULL CHECK (rating >= 1 AND rating <= 10)
+    rating FLOAT NOT NULL CHECK (rating >= 0 AND rating <= 10)
 );
