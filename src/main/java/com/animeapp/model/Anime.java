@@ -13,7 +13,7 @@ public class Anime {
     @Enumerated(EnumType.STRING)
     private Status status;
     private Double avgRating;
-    private String anime_img_url;
+    private String imageUrl;
 
     public Integer getId() {
         return animeId;
@@ -23,12 +23,12 @@ public class Anime {
         return title;
     }
 
-    public String getAnime_img_url() {
-        return anime_img_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setAnime_img_url(String anime_img_url) {
-        this.anime_img_url = anime_img_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Integer getTotalEpisodes() {

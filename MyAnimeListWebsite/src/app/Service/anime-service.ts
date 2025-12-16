@@ -7,6 +7,8 @@ export interface Anime {
   title: string;
   totalEpisodes: number;
   status: string;
+  avgRating: number;
+  imageUrl: string;
 }
 
 @Injectable({
@@ -16,7 +18,7 @@ export interface Anime {
 export class AnimeService {
   private apiUrl = 'http://localhost:8080/anime/all';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllAnime(): Observable<Anime[]> {
     return this.http.get<Anime[]>(this.apiUrl);

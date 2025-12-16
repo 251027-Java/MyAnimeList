@@ -159,6 +159,7 @@ export class AnimeList implements OnInit, OnDestroy {
     if (userId) {
       this.userService.addToWatchlist(userId, animeId).subscribe({
         next: () => {
+          // Update the watchlist sets
           this.userWatchlist.update(set => {
             const newSet = new Set(set);
             newSet.add(animeId);
@@ -169,12 +170,20 @@ export class AnimeList implements OnInit, OnDestroy {
             newSet.add(animeId);
             return newSet;
           });
-          alert('Added to watchlist!');
+
+          // Flip the card back to front
+          this.toggleFlip(animeId);
+
+          // Show success message
+          alert('Successfully added to watchlist!');
         },
-        error: (err) => console.error('Error adding to watchlist', err)
+        error: (err) => {
+          console.error('Error adding to watchlist:', err);
+          alert('Failed to add to watchlist. Please try again.');
+        }
       });
     } else {
-      alert('Please login first.');
+      alert('Please log in to add anime to your watchlist.');
     }
   }
 
