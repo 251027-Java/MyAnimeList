@@ -1,9 +1,9 @@
 - This application, "MyAnimeListWebsite," is based off of the "MyAnimeList." 
 - In our application, the first page takes you to a sign up prompt. If a user already has an account, there is a hyperlink login tab for them to click and they can navigate to the "Login" page.
-- WHen a user is logged in, the first page they are taken to is the home page. This page displays the top average rated animes and the least average rated animes. This helps guide a user and gives them information on specific animes. For example, if User A was really wanting to watch Anime A, but Anime A was ranked in the Least Average, it could help User A decide if they want to invest time into it or not.
+- When a user is logged in, the first page they are taken to is the home page. This page displays the top average rated animes and the least average rated animes. This helps guide a user and gives them information on specific animes. For example, if User A was really wanting to watch Anime A, but Anime A was ranked in the Least Average, it could help User A decide if they want to invest time into it or not.
 - From the home page, the user can navigate into their dashboard. In their dashboard, they will be greeted by the application, and there are 2 sections: My Anime Watchlist and My Watched Anime. To add animes to their watchlist, they can navigate to the Anime List page. In this page there are about 14500 animes to chose from. When a user clicks on an anime, it gives the option to add to their watchlist. When they add it, it can be viewed back in their dashboard.
 - When the anime is in their dashboard, there is a button that says "Watched?" WHen a user is finished watching, they can click this button, the anime will then be removed from their watched list and put into their My Watched Anime section.
-- In the My Watched Anime section, users can leave ratings (1-10) for the animes. When the ratings are submitted, it will update the average overall ratings back in the home page.
+- In the My Watched Anime section, users can leave ratings (0-10) for the animes. When the ratings are submitted, it will update the average overall ratings back in the home page.
 - Once a user is finished, they can click the log out button and it will redirect them back to the login page.
 
 USER STORIES
