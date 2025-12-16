@@ -16,6 +16,7 @@ create table myanimelist.anime (
     total_episodes INTEGER,
     status VARCHAR(20),
     avg_rating DOUBLE PRECISION
+    anime_img_url Varchar(200)
 );
 
 create table myanimelist.users (
