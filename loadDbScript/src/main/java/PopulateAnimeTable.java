@@ -18,7 +18,7 @@ public class PopulateAnimeTable {
         String user = "postgres";
         String password = "postgres";
 
-        String insertSQL = "INSERT INTO myanimelist.anime (title, total_episodes, status, avg_rating) VALUES (?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO myanimelist.anime (title, total_episodes, status, avg_rating,image_url) VALUES (?, ?, ?, ?, ?)";
 
         try (
                 CSVReader reader = new CSVReader(new FileReader(csvFile));
@@ -38,6 +38,7 @@ public class PopulateAnimeTable {
 
                 Integer episodes = parseInteger(getField(fields, 8));
                 String status = getField(fields, 9);
+                String image_url = getField((fields,5))
 
                 pstmt.setString(1, title);
                 if (episodes != null) {
@@ -58,6 +59,8 @@ public class PopulateAnimeTable {
                 }
 
                 pstmt.setDouble(4, Math.round(((Math.random() * 9) + 1) * 100.0) / 100.0);
+
+                pstmt.setString(5,image_url)
 
                 pstmt.executeUpdate();
             }
