@@ -19,7 +19,7 @@ export class Navbar implements OnInit, OnDestroy {
   isAnimeListPage: boolean = false;
   private routerSubscription?: Subscription;
 
-  constructor(private searchService: SearchService, private authService: AuthService, private router: Router) {}
+  constructor(private searchService: SearchService, public authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     // Check initial route

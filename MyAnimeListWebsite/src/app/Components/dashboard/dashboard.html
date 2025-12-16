@@ -1,5 +1,5 @@
 <div class="dashboard-container">
-    <h1>Welcome, {{ username() }}</h1>
+    <h1>Welcome, {{ username() | titlecase }}!</h1>
     <h2>My Anime Watchlist</h2>
 
     <div class="anime-grid" *ngIf="watchlist().length > 0; else emptyList">
@@ -18,7 +18,7 @@
     </div>
 
     <ng-template #emptyList>
-        <p>Your watchlist is empty. Go to Home to add some anime!</p>
+        <p>Your watchlist is empty. Go to Anime List to add some anime!</p>
     </ng-template>
 
     <br />
