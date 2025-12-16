@@ -1,0 +1,22 @@
+- This application, "MyAnimeListWebsite," is based off of the "MyAnimeList." 
+- In our application, the first page takes you to a sign up prompt. If a user already has an account, there is a hyperlink login tab for them to click and they can navigate to the "Login" page.
+- WHen a user is logged in, the first page they are taken to is the home page. This page displays the top average rated animes and the least average rated animes. This helps guide a user and gives them information on specific animes. For example, if User A was really wanting to watch Anime A, but Anime A was ranked in the Least Average, it could help User A decide if they want to invest time into it or not.
+- From the home page, the user can navigate into their dashboard. In their dashboard, they will be greeted by the application, and there are 2 sections: My Anime Watchlist and My Watched Anime. To add animes to their watchlist, they can navigate to the Anime List page. In this page there are about 14500 animes to chose from. When a user clicks on an anime, it gives the option to add to their watchlist. When they add it, it can be viewed back in their dashboard.
+- When the anime is in their dashboard, there is a button that says "Watched?" WHen a user is finished watching, they can click this button, the anime will then be removed from their watched list and put into their My Watched Anime section.
+- In the My Watched Anime section, users can leave ratings (1-10) for the animes. When the ratings are submitted, it will update the average overall ratings back in the home page.
+- Once a user is finished, they can click the log out button and it will redirect them back to the login page.
+
+USER STORIES
+1. As a user, I want to add animes to my watchlist so that I can keep track of what I want to watch
+
+2. As a new user, I want to be able to sign up and create an account so that I can create an anime list.
+
+3. As a user, I want to be able to search and filter through animes so that I dont have to scroll through all of them.
+
+4. As a user, after watching an anime, I want to be able to remove the anime from my watchlist so that I can manage my list.
+
+5. As a user, I want the dashboard to update when I add an anime to it so that I can always see the current information.
+
+6. As a user, I want to be able to log out once I'm finished so that I can keep my information private.
+
+
