@@ -10,6 +10,7 @@
     [class.flipped]="isFlipped(anime.id)">
     <div class="anime-card-inner">
       <div class="anime-card-front">
+        <img class="anime-cover" [src]="anime.imageUrl" [alt]="anime.title" loading="lazy" />
         <h3 class="anime-title">{{ anime.title }}</h3>
       </div>
       <div class="anime-card-back">
@@ -17,6 +18,8 @@
         <div class="anime-details">
           <p><strong>Episodes:</strong> {{ anime.totalEpisodes }}</p>
           <p><strong>Status:</strong> {{ anime.status }}</p>
+          <p *ngIf="anime.avgRating !== undefined"><strong>Rating:</strong> {{ anime.avgRating | number:'1.1-1' }}/10
+          </p>
           <div class="user-actions" (click)="$event.stopPropagation()">
             <p *ngIf="isWatched(anime.id)" style="color: green; font-weight: bold;">✓ Watched</p>
             <button class="action-btn" *ngIf="!isWatched(anime.id) && !isInWatchlist(anime.id)"
